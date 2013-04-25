@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <iostream>
 #include <vector>
+#include <thread>
 
 // Tests list of numbers for primality
 // Usage: a.out n1 [n2...]
@@ -64,7 +65,22 @@ int main(int argc, char *argv[]) {
     // The thread function will divide the n primes into
     // disjoint subsets, giving each thread exactly one subset
 
-    prime_th(0, NT, n);
+    //Default constructor of class thread
+    //Creates a receptacle but not the actual thread
+    std::thread *thrds = new std::thread[NT];
+    for(int t = 0; t< NT; t++){
+	//Spawn threads
+	//Creates thread object & associates it with a thread of execution
+	//Thread runs prime_th()
+	thrds[t] = std::thread(prime_th, t, NT, n);
+    }
+    //Join threads
+    for(int t = 0; t < NT; t++){
+	thrds[t].join();
+    }
+
+    //prime_th(0, NT, n); //only 1 thread, REMOVE LATER
+    
 
     // Stop the Timer
     double t1 = getTime();

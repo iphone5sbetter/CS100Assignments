@@ -28,6 +28,7 @@ extern std::vector<bool> primeFlags;    // Prime flags
 void prime_th(int TID, int NT, int n)
 {
 
+
     for (int i=0;i<n; i++) {
         if (isPrime (candidates[i])){
             std::cout << candidates[i] << " is prime\n";

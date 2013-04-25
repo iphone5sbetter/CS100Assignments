@@ -40,8 +40,10 @@ void getInput(int argc, char *argv[], int &n, int &NT){
    
     for (int i = 2; i < argc; i++)
     {
-        candidates.push_back(*argv[i]);
+	//pushes arguments into empty vector
+        candidates.push_back(atoll(argv[i]));
     }
-
+    
+    //Sets NT to number of threads
     NT = atof(argv[1]);
 }

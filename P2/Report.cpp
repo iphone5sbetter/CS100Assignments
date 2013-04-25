@@ -13,4 +13,5 @@ extern std::vector<bool> primeFlags;
 
 // TODO: Write this routine to show the output of your prime number tester
 void ReportPrimes(int n){
+   std::cout << "A total of " << n << "prime numbers were identified" << std::endl;
 }
