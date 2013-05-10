@@ -1,9 +1,25 @@
+// Daniel Brim <dbrim@ucsd.edu>, Tyler Pollak <tpollak@ucsd.edu>
+/*
+ * Assignment 2
+ * CS 100 - Spring 2013
+ * Apr 25, 2013
+ *
+ * Daniel Brim - dbrim - A09828025
+ * Tyler Pollak - tpollak -A09965467
+ * Partner submission
+ *
+ * prime_th - 
+ * This function takes in a thread id, the total number of threads, 
+ * and the total number of prime candidates. It figures out how many
+ * primes it has to do based on the total number of candidates / number threads.
+ * If a candidate is prime, it sets primeFlags to true for that vector.
+ */
+
 #include <stdlib.h>
 #include <assert.h>
 #include <iostream>
 #include <thread>
 #include <vector>
-
 
 
 bool isPrime(int64_t x);
@@ -27,10 +43,16 @@ extern std::vector<bool> primeFlags;    // Prime flags
 // This function should perform no I/O when you are timing the code
 void prime_th(int TID, int NT, int n)
 {
+    int start = TID * (n / NT);
+    int end = (TID + 1) * (n / NT);
 
-    for (int i=0;i<n; i++) {
+    if (TID == (NT - 1)) {
+        end = n;
+    }
+    
+    for (int i = start; i < end; i++) {
         if (isPrime (candidates[i])){
-            std::cout << candidates[i] << " is prime\n";
+           primeFlags[i] = true;
         }
     }
 }
