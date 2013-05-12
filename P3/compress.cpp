@@ -10,6 +10,7 @@ ifstream::pos_type size;
 vector<int>freq(256); // 256 different combinations of bits
 
 char *memblock;
+BitInputStream *inputstream;
 
 int main(int argc, char *argv[]) {
 
@@ -19,16 +20,15 @@ int main(int argc, char *argv[]) {
 
     // Handle output
     ofstream fileout;
-    fileout.open ("test.txt", ios::binary | ios::out);
+    fileout.open (argv[2], ios::binary | ios::out);
 
     //ifstream file (argv[1], ios::binary);
 
     if (filein.is_open())
     {
-        BitInputStream *inputstream = new BitInputStream(filein);
+        inputstream = new BitInputStream(filein);
        
-        // read in bits/bytes here
-        
+        // read in bits/bytes here 
         int bytez;
         do {
             bytez = (*inputstream).readByte();
@@ -37,8 +37,30 @@ int main(int argc, char *argv[]) {
             //cout << "Byte: " << bytez << endl;
             
         } while (bytez != -1);
-        
-        filein.close();
+
+
+        for (int i = 0; i < 256; i++)
+        {
+            if (freq[i] != 0) {
+                cout << "Index: " << i << " " << "Freq: " << freq[i] << endl;
+            }
+        }
+
+         // Build the tree
+        HCTree *tree = new HCTree();
+        (*tree).build(freq);
+
+        BitOutputStream *outputstream = new BitOutputStream(fileout);
+        filein.clear();
+        filein.seekg(0, ios::beg);
+
+
+        int sym = 0;
+        while (filein.good()) {
+            cout << "Compressing..." << endl;
+            sym = (*inputstream).readByte();
+            (*tree).encode((byte)sym, *outputstream);
+        }
     }
     else if (filein.bad()) {
         cout << "Error opening the file\n" << endl;
@@ -47,25 +69,7 @@ int main(int argc, char *argv[]) {
         cout << "File Not Found\n";
     }
 
-    for (int i = 0; i < 256; i++)
-    {
-        if (freq[i] != 0) {
-            cout << "Index: " << i << " " << "Freq: " << freq[i] << endl;
-        }
-    }
-    
-    // Build the tree
-    HCTree *tree = new HCTree();
-    (*tree).build(freq);
-
-    BitOutputStream *outputstream = new BitOutputStream(fileout);
-
-    /*
-    // Encode each byte
-    for (int i = 0; i < 255; i++) {
-        (*tree).encode((char)i, *outputstream);
-    }
-    */
-
+    filein.close();
+    fileout.close();
 }
 

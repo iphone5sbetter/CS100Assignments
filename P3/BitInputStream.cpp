@@ -32,7 +32,7 @@ int BitInputStream:: readBit(){
 
  //decrement buffer index as you move down the array
  bufi--;
- return (buf &(mask<<index)) >>index;
+ return (buf &(1<<index)) >>index;
 
 }
 

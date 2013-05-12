@@ -10,11 +10,12 @@
    */
 void BitOutputStream:: writeBit(int bit){
 	if(bufi == 8){
-	 flush();
+	    flush();
+        cout << "Flushing..." << endl;
 	}
 
 	int index = 7-bufi;
-	buf = buf|(bit<< index);
+	buf = buf | (bit<< index);
 	bufi++;
 }
 
