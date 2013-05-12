@@ -2,6 +2,7 @@
 #include <iostream>     // std::cout
 #include <fstream>      // std::ifstream
 #include "BitInputStream.hpp"
+#include "HCTree.hpp"
 
 using namespace std;
 
@@ -12,12 +13,20 @@ char *memblock;
 
 int main(int argc, char *argv[]) {
 
-    ifstream file;
-    file.open(argv[1], ios::binary);
+    // Handle input
+    ifstream filein;
+    filein.open(argv[1], ios::binary);
+
+    // Handle output
+    ofstream fileout;
+    fileout.open ("test.txt", ios::binary | ios::out);
+
     //ifstream file (argv[1], ios::binary);
-    if (file.is_open())
+
+    if (filein.is_open())
     {
-        BitInputStream *inputstream = new BitInputStream(file);
+        BitInputStream *inputstream = new BitInputStream(filein);
+       
         // read in bits/bytes here
         
         int bytez;
@@ -29,7 +38,10 @@ int main(int argc, char *argv[]) {
             
         } while (bytez != -1);
         
-        file.close();
+        filein.close();
+    }
+    else if (filein.bad()) {
+        cout << "Error opening the file\n" << endl;
     }
     else {
         cout << "File Not Found\n";
@@ -41,5 +53,19 @@ int main(int argc, char *argv[]) {
             cout << "Index: " << i << " " << "Freq: " << freq[i] << endl;
         }
     }
+    
+    // Build the tree
+    HCTree *tree = new HCTree();
+    (*tree).build(freq);
+
+    BitOutputStream *outputstream = new BitOutputStream(fileout);
+
+    /*
+    // Encode each byte
+    for (int i = 0; i < 255; i++) {
+        (*tree).encode((char)i, *outputstream);
+    }
+    */
+
 }
 

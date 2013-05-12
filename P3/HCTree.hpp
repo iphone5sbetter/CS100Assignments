@@ -29,6 +29,7 @@ class HCTree {
 private:
     HCNode* root;
     vector<HCNode*> leaves;
+    void deleteNode(HCNode* n);
 
 public:
     explicit HCTree() : root(0) {
