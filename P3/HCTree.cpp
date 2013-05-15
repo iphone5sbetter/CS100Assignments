@@ -40,9 +40,11 @@ void HCTree:: build(const vector<int>& freqs){
         }
 	
 	    //index of the freq vector is our symbol
-	    symbol= counter;   //converts the counter into a symbol
+	    symbol = (char)counter;   //converts the counter into a symbol
+        //cout << "Symbol " << symbol << endl;
+        //cout << "count " << *vit << endl;
 	    temp = new HCNode(*vit, symbol); //create a new node with those attributes
-    
+        
 
 	    //push it to the queue where it will use the HCNodePtrComp method 
 	    //to sort the queue from smallest to biggest
@@ -53,6 +55,7 @@ void HCTree:: build(const vector<int>& freqs){
 
         counter++;
     }
+
     
     while(pq.size() != 1){
     	//pop the two smallest element from the queue.	    
@@ -63,9 +66,18 @@ void HCTree:: build(const vector<int>& freqs){
         
 	    //add their counts together 
         counts= temp2->count + temp3->count;
-   
+        byte newsymbol;
+        if (temp2->symbol < temp3 -> symbol) {
+            newsymbol = temp2->symbol;
+        }
+        else
+            newsymbol = temp3->symbol;
+
       	//create a new node with that count and the two previous nodes as child
-        temp4= new HCNode(counts,NULL,temp3, temp2);
+        if ( temp3 > temp2 )
+            temp4= new HCNode(counts,newsymbol,temp3, temp2);
+        else
+            temp4 = new HCNode(counts,newsymbol, temp2, temp3);
         
 	    //setting parents
 	    temp2->p= temp4;
@@ -110,7 +122,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const{
 	    // increment and decrement index and counter
 
         if (leafSym -> p -> c0 == leafSym) {
-            cout << "left child" << endl;
+            //cout << "left child" << endl;
 		    leafSym = leafSym -> p;
 		    tempSym = tempSym | ( 0 << index);
 		    index ++;
@@ -124,7 +136,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const{
 	  // increment and decrement index and coutner
 
       else if (leafSym -> p -> c1 == leafSym) {
-            cout << "right child" << endl;
+            //cout << "right child" << endl;
 	    	leafSym = leafSym-> p;
 		    tempSym = tempSym | ( 1 << index);
 		    index++;
@@ -133,9 +145,9 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const{
     } 
 
         //write the bits into the outstream in reverse order
-	for(int i=0; i<cnter; i++){
-        cout << "bit: " << ( (tempSym&( 1<<i )) >> i )<< endl;
-	    out.writeBit( (tempSym&( 1<<i) ) >>i );
+	for(int i = cnter; i > 0; i--){
+        //cout << "bit: " << ( (tempSym&( 1<<i )) >> i ) << endl;
+	    out.writeBit( (tempSym >> (cnter-i)) & 1 );
 	}
 }
 
@@ -145,13 +157,12 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const{
   */
 int HCTree::decode(BitInputStream& in) const{
 	HCNode* node = this->root;
-	char bitRead;
-    
+	unsigned bitRead = 0;
 
 	while(node->c0 != nullptr && node->c1!= nullptr){
 		bitRead= in.readBit(); //get the byte from the input stream
 		
-		if(bitRead == 1){
+		if(bitRead){
 			node = node->c1; //if bit read is 1, go c1 child	
 		}
 		

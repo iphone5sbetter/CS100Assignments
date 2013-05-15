@@ -11,11 +11,10 @@
 void BitOutputStream:: writeBit(int bit){
 	if(bufi == 8){
 	    flush();
-        cout << "Flushing..." << endl;
 	}
 
 	int index = 7-bufi;
-	buf = buf | (bit<< index);
+	buf = buf | (bit << index);
 	bufi++;
 }
 
@@ -25,7 +24,10 @@ void BitOutputStream:: writeBit(int bit){
    *  and writing bytes.
    */
 void BitOutputStream:: writeByte(int b){
-
+    int mask = 0x000000FF;
+    char c = (b & mask);
+    out.put(c); 
+    
 }
 
   /** Write the argument to the ostream.
@@ -35,12 +37,13 @@ void BitOutputStream:: writeByte(int b){
    */
 void BitOutputStream:: writeInt(int i){
 
+
 }
 
 void BitOutputStream:: flush(){
 
  	out.put(buf);
-	out.flush();
+ 	out.flush();
 	bufi=0;
 	buf=0;
 

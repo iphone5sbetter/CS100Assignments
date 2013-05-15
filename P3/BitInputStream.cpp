@@ -9,17 +9,11 @@
   *  of ordering of bits in the stream.
   */
 int BitInputStream:: readBit(){
- //if buffer is empty, populate array with byte and set bufi to 0
- if(buf == 0){
-  //in.get() gets 1 byte at a time
-   buf = in.get();
-   bufi = 8;
- }
 
  //if buffer index == 0
- if(bufi == 0){
+ if(bufi == 8){
    buf = in.get();
-   bufi = 8;
+   bufi = 0;
 }
 
  // EOF reached
@@ -27,12 +21,10 @@ int BitInputStream:: readBit(){
    return -1;
  }
  
- int index = bufi -1;
- char mask = 1;
-
  //decrement buffer index as you move down the array
- bufi--;
- return (buf &(1<<index)) >>index;
+ bufi++;
+ int index = 8 - bufi;
+ return (buf &(1<<index));
 
 }
 
@@ -59,7 +51,26 @@ int BitInputStream:: readByte(){
   *  and reading ints.
   */
 int BitInputStream:: readInt(){
+    unsigned int num = 0;
 
+    int temp = readByte();
+    num = temp;
+    cout << "num: " << temp << endl;
+
+    temp = readByte();
+    num = num << 8;
+    num = num | temp;
+    cout << "num: " << temp << endl;
+
+    temp = readByte();
+    num = num << 8;
+    num = num | temp;
+cout << "num: " << num << endl;
+    temp = readByte();
+    num = num << 8;
+    num = num | temp;
+cout << "num: " << num << endl;
+    return num;
 }
 
 
