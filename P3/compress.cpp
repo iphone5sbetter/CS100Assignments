@@ -32,15 +32,14 @@ int main(int argc, char *argv[]) {
        
         // read in bits/bytes here 
         int bytez;
-        int numSymbolz;
+        int numSymbolz = 0;
+        int textLength = 0;
 
         do {
             bytez = (*inputstream).readByte();
             if (bytez != -1) {
                 ++(freq[bytez]);
-            }
-            //cout << "Byte: " << bytez << endl;
-            
+            }            
         } while (bytez != -1);
 
 
@@ -48,6 +47,7 @@ int main(int argc, char *argv[]) {
         {
             if (freq[i] != 0) {
                 numSymbolz++;
+                textLength += freq[i];
                 cout << "Index: " << i << " " << "Freq: " << freq[i] << endl;
             }
         }
@@ -62,24 +62,30 @@ int main(int argc, char *argv[]) {
 
         cout << "Writing first bytes..." << endl;
 
-        cout << "Writing the first index of the header" << endl;
-        int headerlength = numSymbolz*5 + 8;
+        int headerlength = numSymbolz * 5 + 8;
+        cout << "Writing the length of the header: " << headerlength << endl;
         fileout.write((char*)&headerlength,4);
+        //outputstream -> writeInt(headerlength);
 
-        cout << "Writing # of bytes in original text" << endl;
+        cout << "Writing # of unique symbols " << numSymbolz << endl;
         fileout.write((char*)&numSymbolz,4);
+        //outputstream -> writeInt(numSymbolz);
+        
+        cout << "Writing length of text (bytes) " << textLength << endl;
+        fileout.write((char*)&textLength,4);
 
         cout << "Writing main header" << endl;
-        for (int i = 0; i < freq.size(); i++) {
+        for (unsigned int i = 0; i < freq.size(); i++) {
             if (freq[i] > 0) {
-                //cout << " byte: " << i << endl;
 
+                cout << " number: " << freq[i] << endl;
                 // Write the number of them
-                fileout.write((char*)&freq[i],4); 
+                fileout.write((char*)&freq[i],4);
+
+                //outputstream -> writeInt(freq[i]);
                 // Write the byte
-                (*outputstream).writeByte((char)i);   
-                
-                //cout << " number: " << freq[i] << endl;
+                (*outputstream).writeByte((char)i);  
+                cout << " byte: " << i << endl; 
             }
         }
 

@@ -9,6 +9,7 @@
    *  This must be consistent with BitInputStream::readBit().
    */
 void BitOutputStream:: writeBit(int bit){
+    cout << "writeBit - bit: " << bit << endl;
 	if(bufi == 8){
 	    flush();
 	}
@@ -24,9 +25,7 @@ void BitOutputStream:: writeBit(int bit){
    *  and writing bytes.
    */
 void BitOutputStream:: writeByte(int b){
-    int mask = 0x000000FF;
-    char c = (b & mask);
-    out.put(c); 
+    out.put(b); 
     
 }
 
@@ -36,8 +35,7 @@ void BitOutputStream:: writeByte(int b){
    *  and writing ints.
    */
 void BitOutputStream:: writeInt(int i){
-
-
+    out.write((char*)&i, 4);
 }
 
 void BitOutputStream:: flush(){

@@ -36,12 +36,12 @@ int BitInputStream:: readBit(){
   *  and reading bytes.
   */
 int BitInputStream:: readByte(){
-    int byte = in.get();
+    
 
     if (in.eof())
         return -1;
 
-    return byte;
+    return in.get();
 }
 
 /** Read a non-negative int from the ostream.
@@ -51,26 +51,12 @@ int BitInputStream:: readByte(){
   *  and reading ints.
   */
 int BitInputStream:: readInt(){
-    unsigned int num = 0;
+    int temp = 0; 
+    in.read((char*)&temp, 4);
+    if (in.eof())
+        return -1;
 
-    int temp = readByte();
-    num = temp;
-    cout << "num: " << temp << endl;
-
-    temp = readByte();
-    num = num << 8;
-    num = num | temp;
-    cout << "num: " << temp << endl;
-
-    temp = readByte();
-    num = num << 8;
-    num = num | temp;
-cout << "num: " << num << endl;
-    temp = readByte();
-    num = num << 8;
-    num = num | temp;
-cout << "num: " << num << endl;
-    return num;
+    return temp;
 }
 
 
