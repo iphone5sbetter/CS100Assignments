@@ -26,8 +26,8 @@ int BitInputStream:: readBit(){
     int index = 7 - bufi;
     bufi++;
     int temp = ((buf >> index) & 1);
-    cout << "SHIFTS: " << temp << endl;
-    return temp;
+    //cout << "SHIFTS: " << temp << endl;
+    return ((buf >> index) & 1);
 }
 
 

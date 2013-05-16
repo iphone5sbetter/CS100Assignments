@@ -29,13 +29,13 @@ int main(int argc, char* argv[]){
         unsigned int tlength = input -> readInt(); // Length of text (bytes)
         unsigned int textbytes = input -> readInt();
 
-        std::cout << "Length of header " << hlength << std::endl;
-        std::cout << "Num of diff symbols " << tlength << std::endl;
-        std::cout << "Length of text (bytes) " << textbytes << endl;
+        //std::cout << "Length of header " << hlength << std::endl;
+        //std::cout << "Num of diff symbols " << tlength << std::endl;
+        //std::cout << "Length of text (bytes) " << textbytes << endl;
         /******* header ********/
 
         /// BUILD HEADER //
-	    int i = 0; // Start past the two nums, at the actual header
+	    unsigned int i = 0; // Start past the two nums, at the actual header
         while( i < tlength) {
             int d = input -> readInt();
             int s = input -> readByte();
@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
             i++;
        } 
         
-       cout << "here 1" << endl; 
+       //cout << "here 1" << endl; 
           //Build tree here.
         
         HCTree* myTree = new HCTree();
@@ -56,16 +56,15 @@ int main(int argc, char* argv[]){
         
           //Decode individual bytes
          
-        int y = 0;
+        unsigned int y = 0;
         //cout << "" << endl;
         while (infile.good() && y < textbytes) {
             int decoded = myTree -> decode(*input);
-            cout << "Decoded byte: " << (char)decoded << endl;
-            outfile.put(decoded);
+            //cout << "Decoded byte: " << (char)decoded << endl;
+            outfile.put((char)decoded);
             y++;
         }
-
-        output -> flush();
+        outfile.flush();
     }
 
     infile.close();

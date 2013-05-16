@@ -73,7 +73,7 @@ void HCTree:: build(const vector<int>& freqs){
         counts = temp2->count + temp3->count;
 
       	//create a new node with that count and the two previous nodes as child
-        temp4 = new HCNode(counts, temp2->symbol < temp3->symbol ? temp2 -> symbol: temp3 -> symbol, temp3, temp2);
+        //temp4 = new HCNode(counts, temp2->symbol < temp3->symbol ? temp2 -> symbol: temp3 -> symbol, temp3, temp2);
         temp4 = new HCNode(counts, 0, temp3, temp2);
 
         
@@ -150,7 +150,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const{
 	    out.writeBit( (tempSym&(1 << i )) >> i);
 	}
 
-    std::cout << "Symbol " << symbol << std::endl;
+    //std::cout << "Symbol " << symbol << std::endl;
 }
 
 /** Return symbol coded in the next sequence of bits from the stream.
@@ -172,7 +172,7 @@ int HCTree::decode(BitInputStream& in) const{
             node = node-> c0; // if bit read is 0, go g0 child	
 	}
 
-    cout << "Decoding byte: " << node -> symbol << endl;
+    //cout << "Decoding byte: " << node -> symbol << endl;
  	return node -> symbol; //return the symbol at the end of the tree
 	
 }

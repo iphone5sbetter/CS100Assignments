@@ -6,7 +6,7 @@
    *  This must be consistent with BitInputStream::readBit().
    */
 void BitOutputStream:: writeBit(int bit){
-    cout << "writeBit - bit: " << bit << endl;
+    //cout << "writeBit - bit: " << bit << endl;
 	if(bufi == 8){
 	    flush();
 	}
@@ -37,7 +37,6 @@ void BitOutputStream:: writeInt(int i){
 
 void BitOutputStream:: flush(){
     out.put(buf);
-    cout << "buf: " << buf << endl;
     out.flush();
     bufi=0;
     buf=0;

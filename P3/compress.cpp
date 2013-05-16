@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
             if (freq[i] != 0) {
                 numSymbolz++;
                 textLength += freq[i];
-                cout << "Index: " << i << " " << "Freq: " << freq[i] << endl;
+                //cout << "Index: " << i << " " << "Freq: " << freq[i] << endl;
             }
         }
 
@@ -60,32 +60,32 @@ int main(int argc, char *argv[]) {
         filein.clear();
         filein.seekg(0, ios::beg);
 
-        cout << "Writing first bytes..." << endl;
+        //cout << "Writing first bytes..." << endl;
 
         int headerlength = numSymbolz * 5 + 8;
-        cout << "Writing the length of the header: " << headerlength << endl;
+       // cout << "Writing the length of the header: " << headerlength << endl;
         fileout.write((char*)&headerlength,4);
         //outputstream -> writeInt(headerlength);
 
-        cout << "Writing # of unique symbols " << numSymbolz << endl;
+        //cout << "Writing # of unique symbols " << numSymbolz << endl;
         fileout.write((char*)&numSymbolz,4);
         //outputstream -> writeInt(numSymbolz);
         
-        cout << "Writing length of text (bytes) " << textLength << endl;
+        //cout << "Writing length of text (bytes) " << textLength << endl;
         fileout.write((char*)&textLength,4);
 
-        cout << "Writing main header" << endl;
+        //cout << "Writing main header" << endl;
         for (unsigned int i = 0; i < freq.size(); i++) {
             if (freq[i] > 0) {
 
-                cout << " number: " << freq[i] << endl;
+                //cout << " number: " << freq[i] << endl;
                 // Write the number of them
                 fileout.write((char*)&freq[i],4);
 
                 //outputstream -> writeInt(freq[i]);
                 // Write the byte
                 (*outputstream).writeByte((char)i);  
-                cout << " byte: " << i << endl; 
+                //cout << " byte: " << i << endl; 
             }
         }
 
