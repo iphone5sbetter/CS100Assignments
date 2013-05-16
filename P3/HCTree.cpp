@@ -42,8 +42,8 @@ void HCTree:: build(const vector<int>& freqs){
 	    //index of the freq vector is our symbol
 	    symbol = (char)counter;   //converts the counter into a symbol
         /********************/
-        cout << "Symbol: " << symbol;
-        cout << " with count:" << *vit << endl;
+        //cout << "Symbol: " << symbol;
+        //cout << " with count:" << *vit << endl;
 
 	    temp = new HCNode(*vit, symbol); //create a new node with those attributes
         
@@ -62,11 +62,11 @@ void HCTree:: build(const vector<int>& freqs){
     while(pq.size() != 1){
     	//pop the two smallest element from the queue.	    
   	    temp2 = pq.top();
-        cout << "First node symbol: " << temp2 -> symbol;
+        //cout << "First node symbol: " << temp2 -> symbol << endl;
         pq.pop();
         temp3 = pq.top();
 
-        cout << " Second node symbol: " << temp3 -> symbol;
+        //cout << " Second node symbol: " << temp3 -> symbol << endl;
         pq.pop();
         
 	    //add their counts together 
@@ -74,11 +74,13 @@ void HCTree:: build(const vector<int>& freqs){
 
       	//create a new node with that count and the two previous nodes as child
         temp4 = new HCNode(counts, temp2->symbol < temp3->symbol ? temp2 -> symbol: temp3 -> symbol, temp3, temp2);
+        temp4 = new HCNode(counts, 0, temp3, temp2);
+
         
-        cout << " Added node symbol: " << temp4 -> symbol << endl;
+        //cout << " Added node symbol: " << temp4 -> symbol << endl;
 	    //setting parents
-	    temp2->p= temp4;
-        temp3->p = temp4;
+	    temp2 -> p = temp4;
+        temp3 -> p  = temp4;
  
         //push it back into the queue, queue sorts again.
         pq.push(temp4);      
@@ -99,14 +101,12 @@ void HCTree:: build(const vector<int>& freqs){
   *  PRECONDITION: build() has been called, to create the coding
   *  tree, and initialize root pointer and leaves vector.
   */
-void HCTree::encode(byte symbol, BitOutputStream& out) const{
+void HCTree::encode(byte symbol, BitOutputStream& out) const{ 
+  	HCNode *leafSym= this -> leaves[symbol]; //assigns a node to the inputed symbol
 
-    /*********/
-    cout << "Encoding byte: " << symbol << endl;
-  	HCNode *leafSym= this->leaves[symbol]; //assigns a node to the inputed symbol
 	int cnter= 0;
 	int index= 0;
-	char tempSym;
+	char tempSym = 0;
 	char zero = 0;
  	char one = 1;
 	
@@ -119,7 +119,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const{
 	    // if it is, set leafSym to parent
 	    // set default temSym to keep track of the bit
 	    // in this case, the bit is 0
-	    // increment and decrement index and counter
+	    // dincrement and decrement index and counter
 
         if (leafSym -> p -> c0 == leafSym) {
             //cout << "left child" << endl;
@@ -145,10 +145,12 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const{
     } 
 
         //write the bits into the outstream in reverse order
-	for(int i = cnter-1; i >= 0; i--){
+	for(int i = cnter - 1; i >= 0; i--){
         //cout << "bit: " << ( (tempSym&( 1<<i )) >> i ) << endl;
 	    out.writeBit( (tempSym&(1 << i )) >> i);
 	}
+
+    std::cout << "Symbol " << symbol << std::endl;
 }
 
 /** Return symbol coded in the next sequence of bits from the stream.
@@ -159,18 +161,18 @@ int HCTree::decode(BitInputStream& in) const{
 	HCNode* node = this->root;
 	unsigned int bitRead = 0;
 
-	while ( node->c0 != nullptr || node->c1 != nullptr){
+    // probably here or readBit, not reading enough bits for long codes
+	while ( node -> c0 != nullptr || node-> c1 != nullptr){
 		bitRead = in.readBit(); //get the byte from the input stream
-		
+	
 		if(bitRead){
-			node = node->c1; //if bit read is 1, go c1 child	
+			node = node -> c1; // if bit read is 1, go c1 child	
 		}
-		
-		else
-			node = node-> c0; //if bit read is 0, go g0 child	
+		else 
+            node = node-> c0; // if bit read is 0, go g0 child	
 	}
 
-    cout << "Decoding byte: " << (byte)node -> symbol << endl;
+    cout << "Decoding byte: " << node -> symbol << endl;
  	return node -> symbol; //return the symbol at the end of the tree
 	
 }

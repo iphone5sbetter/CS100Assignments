@@ -12,10 +12,10 @@ int main(int argc, char* argv[]){
    std::ifstream infile;
   
     if(argc !=3){
-	std::cout << argv[0] << " called with incorrect arguments. "<< std::endl;
-	std::cout << "Usage:" << std::endl;
-	std::cout << argv[0] << " infile outfile" << std::endl;
-	exit(-1);
+	    //std::cout << argv[0] << " called with incorrect arguments. "<< std::endl;
+	    //std::cout << "Usage:" << std::endl;
+	    //std::cout << argv[0] << " infile outfile" << std::endl;
+    	exit(-1);
     }
 
     infile.open(argv[1], ios::binary); // Open input file
@@ -29,44 +29,45 @@ int main(int argc, char* argv[]){
         unsigned int tlength = input -> readInt(); // Length of text (bytes)
         unsigned int textbytes = input -> readInt();
 
-        cout << "Length of header " << hlength << endl;
-        cout << "Num of diff symbols " << tlength << endl;
-        cout << "Length of text (bytes) " << textbytes << endl;
+        std::cout << "Length of header " << hlength << std::endl;
+        std::cout << "Num of diff symbols " << tlength << std::endl;
+        std::cout << "Length of text (bytes) " << textbytes << endl;
         /******* header ********/
 
-        /** BUILD HEADER **/
+        /// BUILD HEADER //
 	    int i = 0; // Start past the two nums, at the actual header
         while( i < tlength) {
             int d = input -> readInt();
             int s = input -> readByte();
-            cout << "Number of them: " << d << endl;
-            cout << "Symbol " << s << endl;
-
+            //std::cout << "Symbol " << s << endl;
+            //std::cout << "Number of them: " << d << endl;
+            
             freq[s] = d;
             i++;
        } 
         
-        /*
-         * Build tree here.
-         */
+       cout << "here 1" << endl; 
+          //Build tree here.
+        
         HCTree* myTree = new HCTree();
         myTree->build(freq);
 
 
-        /*
-         * Decode individual bytes
-         */
-        long y = 0;
+        
+          //Decode individual bytes
+         
+        int y = 0;
+        //cout << "" << endl;
         while (infile.good() && y < textbytes) {
             int decoded = myTree -> decode(*input);
-            //cout << "Decoding byte: " << (char)decoded << endl;
-            outfile.put((char)decoded);
+            cout << "Decoded byte: " << (char)decoded << endl;
+            outfile.put(decoded);
             y++;
         }
 
-        outfile.flush();
+        output -> flush();
     }
 
     infile.close();
-    
 }
+    

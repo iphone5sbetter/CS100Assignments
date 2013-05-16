@@ -90,11 +90,11 @@ int main(int argc, char *argv[]) {
         }
 
 
-        cout << "Compressing..." << endl;
+        //cout << "Compressing..." << endl;
         int sym = 0;
         while (filein.good()) {
             sym = (*inputstream).readByte();
-            (*tree).encode((byte)sym, *outputstream);
+            tree -> encode((byte)sym, *outputstream);
         }
         
         

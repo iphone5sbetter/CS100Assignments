@@ -1,8 +1,5 @@
 #include "BitOutputStream.hpp"
 
-
-
-
  /** Write the least significant bit of the argument into
    *  the bit buffer, and increment the bit buffer index.
    *  Flush to the ostream first if the bit buffer is full.
@@ -39,11 +36,10 @@ void BitOutputStream:: writeInt(int i){
 }
 
 void BitOutputStream:: flush(){
-
- 	out.put(buf);
- 	out.flush();
-	bufi=0;
-	buf=0;
-
+    out.put(buf);
+    cout << "buf: " << buf << endl;
+    out.flush();
+    bufi=0;
+    buf=0;
 }
 
