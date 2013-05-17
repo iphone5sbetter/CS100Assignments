@@ -6,14 +6,11 @@
    *  This must be consistent with BitInputStream::readBit().
    */
 void BitOutputStream:: writeBit(int bit){
-    //cout << "writeBit - bit: " << bit << endl;
-    
 	if(bufi == 0){
 	    flush(); // write out
         buf = 0;
         bufi = 0x80;
 	}
-
     if (bit == 1) 
         buf |= bufi;
     
@@ -26,8 +23,7 @@ void BitOutputStream:: writeBit(int bit){
    *  and writing bytes.
    */
 void BitOutputStream:: writeByte(int b){
-    out.put(b); 
-    
+    out.put(b);  
 }
 
   /** Write the argument to the ostream.
@@ -41,6 +37,5 @@ void BitOutputStream:: writeInt(int i){
 
 void BitOutputStream:: flush(){
     out.put(buf);
-    //out.flush();
 }
 

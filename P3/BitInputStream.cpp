@@ -11,7 +11,13 @@
 int BitInputStream:: readBit(){
 
  //if buffer index == 0
-    if(bufi == 8 || bufi ==0 ){
+ /*
+    if(bufi == 8 || bufi == 0 ){
+        buf = in.get();
+        bufi = 0;
+    } */
+
+    if (bufi == 8) {
         buf = in.get();
         bufi = 0;
     }
@@ -21,14 +27,6 @@ int BitInputStream:: readBit(){
         return -1;
     }
  
-    //decrement buffer index as you move down the array
-    /*
-    int index = 7 - bufi;
-    bufi++;
-    int temp = ((buf >> index) & 1);
-
-    cout << "BIT: " << temp << endl;*/
-    
     unsigned int temp =  buf & (1 << (7 - bufi));
     bufi++;
     if (temp != 0)
@@ -46,7 +44,6 @@ int BitInputStream:: readBit(){
   *  and reading bytes.
   */
 int BitInputStream:: readByte(){
-    
     if (in.eof())
         return -1;
      return in.get();
@@ -63,7 +60,6 @@ int BitInputStream:: readInt(){
     in.read((char*)&temp, 4);
     if (in.eof())
         return -1;
-
     return temp;
 }
 

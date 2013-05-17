@@ -5,27 +5,22 @@
  * and deletes all the node and memory
  */
 void HCTree:: deleteNode(HCNode* n){
-	if(n!= nullptr){
-           deleteNode(n->c0);
-           deleteNode(n->c1);
+	if ( n != nullptr ) {
+           deleteNode( n->c0 );
+           deleteNode( n->c1 );
 	   delete n;
-        }
-      
-        n=nullptr; 
+    }
+    n = nullptr; 
 }
 
 HCTree::~HCTree(){ 
     HCNode *d = this->root;
-
     if (d == 0)
         return;
     else {
         delete d -> c0;
-
         delete d -> c1;
-
         delete d;
-
     }
 }
 
@@ -120,18 +115,13 @@ void HCTree:: build(const vector<int>& freqs){
   *  tree, and initialize root pointer and leaves vector.
   */
 void HCTree::encode(byte symbol, BitOutputStream& out) const{ 
-  	HCNode *leafSym= this -> leaves[symbol]; //assigns a node to the inputed symbol
-//std::cout << "Symbol " << symbol << std::endl;
-
-	unsigned int cnter= 0;
-	unsigned int index= 0;
-	unsigned char tempSym = 0;
-	//char zero = 0;
- 	//char one = 1;
+    HCNode *leafSym= this -> leaves[symbol]; //assigns a node to the inputed symbol
 	
 	//builds from bottom to top
 	//stops when it is at root
     std::stack<int> st;
+
+    //cout << "starting loop" << endl;
 	while(leafSym != this->root && leafSym != NULL){
 
 	    // checks whether it is the c0 child of parent
@@ -141,42 +131,29 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const{
 	    // dincrement and decrement index and counter
 
         if (leafSym -> p -> c0 == leafSym) {
-            //cout << "left child" << endl;
             st.push(0);
-            //std::cout << "0";
-		    leafSym = leafSym -> p;
-		    tempSym = tempSym | ( 0 << index);
-		    index ++;
-		    cnter++;
         }
 	 
-	  // checks whether it is the c1 child of parent
-	  // if it is, set leafSym to parent
-	  // set default temSym to keep track of the bit
-	  // in this case, the bit is 1
-	  // increment and decrement index and coutner
+	    // checks whether it is the c1 child of parent
+	    // if it is, set leafSym to parent
+	    // set default temSym to keep track of the bit
+	    // in this case, the bit is 1
+	    // increment and decrement index and coutner
 
-      else if (leafSym -> p -> c1 == leafSym) {
-            //cout << "right child" << endl;
+        else if (leafSym -> p -> c1 == leafSym) {
             st.push(1);
-            //std::cout << "1";
-	    	leafSym = leafSym-> p;
-		    tempSym = tempSym | ( 1 << index);
-		    index++;
- 		    cnter++;
         }
+        leafSym = leafSym-> p;
+
     } 
-        //write the bits into the outstream in reverse order
-	/*for(int i = cnter - 1; i >= 0; i--){
-        //cout << "bit: " << ( (tempSym&( 1<<i )) >> i ) << endl;
-	    out.writeBit( (tempSym & (1 << i )) >> i);
-        */
-        while (!st.empty()) {
-            //std::cout << st.top();
-            out.writeBit( st.top());
-            st.pop();
-        }
+    //cout << "ending loop" << endl;
+
+    while (!st.empty()) {
+        out.writeBit( st.top());
+        st.pop();
     }
+    
+}
 
 /** Return symbol coded in the next sequence of bits from the stream.
   *  PRECONDITION: build() has been called, to create the coding
