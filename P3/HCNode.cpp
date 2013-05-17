@@ -7,31 +7,7 @@
   *  And we want to break ties deterministically. Defining operator.
   */
 bool HCNode:: operator<(const HCNode& other){
-    /*
-    if(this -> count < other.count){
-	    return false;
-    }
-
-    //if count of this == count of other, compares symbols to determine priority
-    else if(this-> count == other.count)
-    {
-        if(this-> symbol < other.symbol)
-        {
-	        return true;
-        }
-
-        else
-        {
-	        return false;
-        }
-    }
-
-    // if this-> is greater than other-> count
-    else
-    {
-        return true;
-    } */
-
+  
     if (this -> count != other.count)
         return this->count > other.count;
 
@@ -44,6 +20,9 @@ bool HCNode:: operator<(const HCNode& other){
  *
  */ 
 bool HCNode::comp(HCNode* one, HCNode* other){
+
+    return *one < *other;
+    /*
     if(one->count < other->count) 
 	    return false;
  
@@ -57,8 +36,8 @@ bool HCNode::comp(HCNode* one, HCNode* other){
   	        return true;
     }
     else
-        return true;
-  }
+        return true; */
+}
 
 
 

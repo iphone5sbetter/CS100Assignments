@@ -7,9 +7,9 @@
 using namespace std;
 
 ifstream::pos_type size;
-vector<int>freq(256); // 256 different combinations of bits
+vector<int>freq(256, 0); // 256 different combinations of bits
 
-char *memblock;
+unsigned char *memblock;
 BitInputStream *inputstream;
 
 int main(int argc, char *argv[]) {
@@ -31,14 +31,15 @@ int main(int argc, char *argv[]) {
         inputstream = new BitInputStream(filein);
        
         // read in bits/bytes here 
-        int bytez;
+        int bytez = 0;
         int numSymbolz = 0;
         int textLength = 0;
 
         do {
-            bytez = (*inputstream).readByte();
+            //bytez = (*inputstream).readByte();
+            bytez = filein.get();
             if (bytez != -1) {
-                ++(freq[bytez]);
+                ++freq[bytez];
             }            
         } while (bytez != -1);
 
@@ -64,18 +65,18 @@ int main(int argc, char *argv[]) {
 
         int headerlength = numSymbolz * 5 + 8;
        // cout << "Writing the length of the header: " << headerlength << endl;
-        fileout.write((char*)&headerlength,4);
+        //fileout.write((char*)&headerlength,4);
         //outputstream -> writeInt(headerlength);
 
-        //cout << "Writing # of unique symbols " << numSymbolz << endl;
+        cout << "Writing # of unique symbols " << numSymbolz << endl;
         fileout.write((char*)&numSymbolz,4);
         //outputstream -> writeInt(numSymbolz);
         
-        //cout << "Writing length of text (bytes) " << textLength << endl;
+        cout << "Writing length of text (bytes) " << textLength << endl;
         fileout.write((char*)&textLength,4);
 
         //cout << "Writing main header" << endl;
-        for (unsigned int i = 0; i < freq.size(); i++) {
+        for (int i = 0; i < freq.size(); i++) {
             if (freq[i] > 0) {
 
                 //cout << " number: " << freq[i] << endl;
@@ -84,18 +85,24 @@ int main(int argc, char *argv[]) {
 
                 //outputstream -> writeInt(freq[i]);
                 // Write the byte
-                (*outputstream).writeByte((char)i);  
                 //cout << " byte: " << i << endl; 
+                (*outputstream).writeByte((char)i);  
+                
             }
         }
 
 
+
         //cout << "Compressing..." << endl;
         int sym = 0;
-        while (filein.good()) {
+        int y = 0;
+        while (filein.good() && y < textLength) {
             sym = (*inputstream).readByte();
             tree -> encode((byte)sym, *outputstream);
+            y++;
         }
+
+        outputstream -> flush();
         
         
     }

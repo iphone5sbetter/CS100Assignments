@@ -25,7 +25,7 @@ int main(int argc, char* argv[]){
     BitOutputStream* output = new BitOutputStream(outfile);
 
     if(infile.is_open()) {
-        unsigned int hlength = input -> readInt(); // Length of header (bytes)
+        //unsigned int hlength = input -> readInt(); // Length of header (bytes)
         unsigned int tlength = input -> readInt(); // Length of text (bytes)
         unsigned int textbytes = input -> readInt();
 
@@ -53,15 +53,15 @@ int main(int argc, char* argv[]){
         myTree->build(freq);
 
 
-        
           //Decode individual bytes
          
-        unsigned int y = 0;
+        int y = 0;
         //cout << "" << endl;
+        // && y < textbytes
         while (infile.good() && y < textbytes) {
             int decoded = myTree -> decode(*input);
-            //cout << "Decoded byte: " << (char)decoded << endl;
-            outfile.put((char)decoded);
+            //cout << "Decoded byte: " << (unsigned char)decoded << endl;
+            outfile.put((unsigned char)decoded);
             y++;
         }
         outfile.flush();

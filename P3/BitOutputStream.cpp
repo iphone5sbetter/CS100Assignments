@@ -7,13 +7,17 @@
    */
 void BitOutputStream:: writeBit(int bit){
     //cout << "writeBit - bit: " << bit << endl;
-	if(bufi == 8){
-	    flush();
+    
+	if(bufi == 0){
+	    flush(); // write out
+        buf = 0;
+        bufi = 0x80;
 	}
 
-	int index = 7-bufi;
-	buf = buf | (bit << index);
-	bufi++;
+    if (bit == 1) 
+        buf |= bufi;
+    
+    bufi >>= 1;
 }
 
   /** Write the least significant byte of the argument to the ostream.
@@ -37,8 +41,6 @@ void BitOutputStream:: writeInt(int i){
 
 void BitOutputStream:: flush(){
     out.put(buf);
-    out.flush();
-    bufi=0;
-    buf=0;
+    //out.flush();
 }
 
