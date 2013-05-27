@@ -89,6 +89,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Testing the candidate primes " << " took ";
     std::cout << "  " << t1-t0 << " seconds";
     std::cout << "  on " << NT << " threads" << std::endl;
+   // std::cout << "#> " << argc << " " << 
 
 
     std::cout << std::endl;
