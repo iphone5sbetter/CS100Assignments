@@ -1,32 +1,9 @@
 #ifndef BOGGLEUTIL_H
 #define BOGGLEUTIL_H 
 
-class alphaTrie{
-  
-private:
-
- void makeEmpty(alphaNode* &curr){}
- 
-protected:
- /* Create alphaNode* root and size */
- alphaNode* root;
- unsigned int size;
-
-
-
-public:
-/* root = nullptr; size = 0; */
- alphaTrie() : root(nullptr), size(0) {}
-
- /* Destructor */
- virtual ~alphaTrie(){} 
-
-
- void insert(const string &word);
- bool find(const string &word);
-};
-
-
+#include <iostream>
+#include <string>
+using namespace std;
 
 /* Node class for alphaTrie */
 class alphaNode{ 
@@ -40,13 +17,35 @@ public:
 
 /* Node class for alphaNode */
  alphaNode(){
-    letter = NULL;  
+    this -> letter = '\0';  
     for(int i = 0; i < 26; i++){
      child[i] = nullptr;   //creates an array of 26 alphaNode pointers
     }
     flag = false;
  }
  
+};
+
+
+class alphaTrie {
+  
+private:
+
+ void makeEmpty(alphaNode* &curr);
+
+public:
+    alphaNode* root;
+    unsigned int size;
+
+    /* root = nullptr; size = 0; */
+    alphaTrie() : root(nullptr), size(0) {}
+
+    /* Destructor */
+    ~alphaTrie();
+
+
+    void insert(const string &word);
+    bool find(const string &word);
 };
 
 #endif // BOGGLEUTIL_HPP
