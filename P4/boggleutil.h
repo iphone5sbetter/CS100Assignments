@@ -1,6 +1,10 @@
 #ifndef BOGGLEUTIL_H
 #define BOGGLEUTIL_H 
 
+#include <iostream>
+#include <string>
+
+using namespace std;
 
 /* Node class for alphaTrie */
 class alphaNode{ 
@@ -28,7 +32,7 @@ class alphaTrie {
   
 private:
 
- void makeEmpty(alphaNode* &curr){}
+ void makeEmpty(alphaNode* &curr);
  
 protected:
  /* Create alphaNode* root and size */
@@ -38,18 +42,15 @@ protected:
 
 
 public:
-/* root = nullptr; size = 0; */
- alphaTrie() : root(nullptr), size(0) {}
+    /* root = nullptr; size = 0; */
+    alphaTrie() : root(nullptr), size(0) {}
 
- /* Destructor */
- virtual ~alphaTrie(){} 
+    /* Destructor */
+    ~alphaTrie();
 
 
- void insert(const string &word);
- bool find(const string &word);
+    void insert(const string &word);
+    bool find(const string &word);
 };
-
-
-
 
 #endif // BOGGLEUTIL_HPP

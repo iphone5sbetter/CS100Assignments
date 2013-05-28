@@ -7,7 +7,7 @@ public:
  * load the words into an efficient datastructure that will be used internally as needed
  * by the BogglePlayer
  */
-void buildLexicon(const std::set<string>& word_list){
+void BaseBogglePlayer::buildLexicon(const std::set<string>& word_list){
   set<string>:: const_iterator it = word_list.begin();
   set<string>:: const_iterator end = word_list.end();
   t = new alphaTrie();
@@ -25,7 +25,7 @@ void buildLexicon(const std::set<string>& word_list){
  * the contents of board in row major order. Function uses information
  * passed in to construct a data structure representing the board.
  */
-void setBoard(unsigned int rows, unsigned int cols, string** diceArray){
+void BaseBogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceArray){
   
  board = new string*[rows];
  this -> row = rows;
@@ -48,7 +48,7 @@ void setBoard(unsigned int rows, unsigned int cols, string** diceArray){
  *  3) Can be found following an acyclic simple path on the board 
  *     specified by the most recent call to setBoard()
  */
-bool getAllValidWords(unsigned int minimum_word_length, set<string>* words){
+bool BaseBogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string>* words){
 
 
 }
@@ -56,21 +56,21 @@ bool getAllValidWords(unsigned int minimum_word_length, set<string>* words){
 
 
 
-bool isInLexicon(const string& word_to_check){
+bool BaseBogglePlayer::isInLexicon(const string& word_to_check){
 
 
 }
 
 
 
-vector<int> isOnBoard(const string& word_to_check){
+vector<int> BaseBogglePlayer::isOnBoard(const string& word_to_check){
 
 
 }
 
 
 
-void getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols){
+void BaseBogglePlayer::getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols){
 
 
 }
