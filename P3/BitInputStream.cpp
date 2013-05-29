@@ -11,21 +11,29 @@
 int BitInputStream:: readBit(){
 
  //if buffer index == 0
- if(bufi == 8){
-   buf = in.get();
-   bufi = 0;
-}
+ /*
+    if(bufi == 8 || bufi == 0 ){
+        buf = in.get();
+        bufi = 0;
+    } */
 
- // EOF reached
- if(in.eof()){
-   return -1;
- }
+    if (bufi == 8) {
+        buf = in.get();
+        bufi = 0;
+    }
+
+    // EOF reached
+    if(in.eof()){
+        return -1;
+    }
  
- //decrement buffer index as you move down the array
- bufi++;
- int index = 8 - bufi;
- return (buf &(1<<index));
-
+    unsigned int temp =  buf & (1 << (7 - bufi));
+    bufi++;
+    if (temp != 0)
+        temp = 1;
+    else
+        temp = 0;
+    return temp;
 }
 
 
@@ -36,12 +44,9 @@ int BitInputStream:: readBit(){
   *  and reading bytes.
   */
 int BitInputStream:: readByte(){
-    int byte = in.get();
-
     if (in.eof())
         return -1;
-
-    return byte;
+     return in.get();
 }
 
 /** Read a non-negative int from the ostream.
@@ -51,26 +56,11 @@ int BitInputStream:: readByte(){
   *  and reading ints.
   */
 int BitInputStream:: readInt(){
-    unsigned int num = 0;
-
-    int temp = readByte();
-    num = temp;
-    cout << "num: " << temp << endl;
-
-    temp = readByte();
-    num = num << 8;
-    num = num | temp;
-    cout << "num: " << temp << endl;
-
-    temp = readByte();
-    num = num << 8;
-    num = num | temp;
-cout << "num: " << num << endl;
-    temp = readByte();
-    num = num << 8;
-    num = num | temp;
-cout << "num: " << num << endl;
-    return num;
+    unsigned int temp = 0; 
+    in.read((char*)&temp, 4);
+    if (in.eof())
+        return -1;
+    return temp;
 }
 
 

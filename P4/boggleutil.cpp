@@ -48,33 +48,25 @@ void alphaTrie:: insert(const string &word){
     }
 }
 
-
-
-
 bool alphaTrie:: find(const string &word){
-      //check if root is nullptr
-      if(root == nullptr){
-         return false;
-      }
+    if (root == nullptr) {
+        return false;
+    }
 
-      //set current node to root
-      alphaNode* current = this -> root;
-     
-     // for loop to loops through letters in word down trie
-     for(int i = 0; i < word.length(); i++){
-           int pos = word[i] - 97;   //reset index
-          
-           //if no nodee in letter's position in child, return false 
-	   if( current -> child[pos] == nullptr){ 
-               return false;
-           }
-           else{
-                current = current -> child[pos];  //go down trie
-           }
-            
-          //Return node's flag to see if it is an end char of word
-          if(i == word.length()-1){
-             return current -> flag;   //return current's flag which was set in insert
-          }
-       }  
+    alphaNode *current = this -> root;
+
+    for (int i = 0; i < word.length(); i++) {
+        int pos = word[i] - 97;
+
+        // Chec to see if there's a node there
+        if (current -> child[pos] == nullptr) {
+            return false;
+        }
+        else {
+            current = current -> child[pos];
+        }
+
+        if (i == word.length() - 1)
+            return current -> flag;
+    }
 }

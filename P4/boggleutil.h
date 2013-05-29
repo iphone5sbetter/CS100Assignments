@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 /* Node class for alphaTrie */
@@ -32,8 +33,13 @@ class alphaTrie {
 private:
 
  void makeEmpty(alphaNode* &curr);
+ 
+
+
 
 public:
+
+    /* Create alphaNode* root and size */
     alphaNode* root;
     unsigned int size;
 

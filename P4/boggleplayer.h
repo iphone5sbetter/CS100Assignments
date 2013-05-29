@@ -6,21 +6,26 @@
 
 
 class BogglePlayer: public BaseBogglePlayer {
-
-public:
-    void buildLexicon(const set<string>& word_list)  ;
-    void setBoard(unsigned int rows, unsigned int cols, string** diceArray)  ;
-    bool getAllValidWords(unsigned int minimum_word_length, set<string>* words)  ;
-    bool isInLexicon(const string& word_to_check)  ;
-    vector<int> isOnBoard(const string& word_to_check);
-    void getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols);
-
-private:
-    //create the alphaTrie
-    alphaTrie* t;
-    string** board; // do we need this?
-    unsigned int col;
-    unsigned int row;
+    public:
+        void buildLexicon(const set<string>& word_list)  ;
+        void setBoard(unsigned int rows, unsigned int cols, string** diceArray)  ;
+        bool getAllValidWords(unsigned int minimum_word_length, set<string>* words)  ;
+        bool isInLexicon(const string& word_to_check)  ;
+        vector<int> isOnBoard(const string& word_to_check)  ;
+        void getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols)  ;
+      
+    private:
+        //create the alphaTrie
+        alphaTrie* t;
+        string** board;
+        vector<int> location;
+        unsigned int col;
+        unsigned int row;
+        bool buildCalled = false;
+        bool setCalled = false;
+ 	vector<string> used;
+       
+        int findNextChar( int x, int y, string word, vector<string> used);
 };
 
 #endif //BOGGLEPLAYER_H

@@ -47,7 +47,7 @@ void HCTree:: build(const vector<int>& freqs){
           counter++;
           continue;
         }
-
+	
 	    //index of the freq vector is our symbol
 	    symbol = (char)counter;   //converts the counter into a symbol
         /********************/
@@ -94,7 +94,7 @@ void HCTree:: build(const vector<int>& freqs){
         
         //cout << " Added node symbol: " << temp4 -> symbol << endl;
 	    //setting parents
-
+	     
         //push it back into the queue, queue sorts again.
         pq.push(temp4);      
 
@@ -116,7 +116,7 @@ void HCTree:: build(const vector<int>& freqs){
   */
 void HCTree::encode(byte symbol, BitOutputStream& out) const{ 
     HCNode *leafSym= this -> leaves[symbol]; //assigns a node to the inputed symbol
-
+	
 	//builds from bottom to top
 	//stops when it is at root
     std::stack<int> st;
@@ -133,7 +133,7 @@ void HCTree::encode(byte symbol, BitOutputStream& out) const{
         if (leafSym -> p -> c0 == leafSym) {
             st.push(0);
         }
-
+	 
 	    // checks whether it is the c1 child of parent
 	    // if it is, set leafSym to parent
 	    // set default temSym to keep track of the bit
@@ -179,5 +179,5 @@ int HCTree::decode(BitInputStream& in) const{
 
     //cout << "Decoding byte: " << node -> symbol << endl;
  	return node -> symbol; //return the symbol at the end of the tree
-
+	
 }

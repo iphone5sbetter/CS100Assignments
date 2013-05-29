@@ -1,21 +1,20 @@
 #include "BitOutputStream.hpp"
 
-
-
-
  /** Write the least significant bit of the argument into
    *  the bit buffer, and increment the bit buffer index.
    *  Flush to the ostream first if the bit buffer is full.
    *  This must be consistent with BitInputStream::readBit().
    */
 void BitOutputStream:: writeBit(int bit){
-	if(bufi == 8){
-	    flush();
+	if(bufi == 0){
+	    flush(); // write out
+        buf = 0;
+        bufi = 0x80;
 	}
-
-	int index = 7-bufi;
-	buf = buf | (bit << index);
-	bufi++;
+    if (bit == 1) 
+        buf |= bufi;
+    
+    bufi >>= 1;
 }
 
   /** Write the least significant byte of the argument to the ostream.
@@ -24,10 +23,7 @@ void BitOutputStream:: writeBit(int bit){
    *  and writing bytes.
    */
 void BitOutputStream:: writeByte(int b){
-    int mask = 0x000000FF;
-    char c = (b & mask);
-    out.put(c); 
-    
+    out.put(b);  
 }
 
   /** Write the argument to the ostream.
@@ -36,16 +32,10 @@ void BitOutputStream:: writeByte(int b){
    *  and writing ints.
    */
 void BitOutputStream:: writeInt(int i){
-
-
+    out.write((char*)&i, 4);
 }
 
 void BitOutputStream:: flush(){
-
- 	out.put(buf);
- 	out.flush();
-	bufi=0;
-	buf=0;
-
+    out.put(buf);
 }
 
