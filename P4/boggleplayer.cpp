@@ -87,24 +87,21 @@ bool BogglePlayer::isInLexicon(const string& word_to_check){
 
 }
 
-<<<<<<< HEAD
+
 // returns 1 if complete word is found, returns 0 if word not found
 int BogglePlayer:: findNextChar( int x, int y, string word, vector<string> used){
-     int flag;
+     int flag = 0;
 
      std:: string character = word.substr(0, 1);  //take next character
 
-         //check if coordinate is on board
+    //check if coordinate is on board
      if( x - 1 >= 0 ){
         //check if letter at x-1, y is next letter
         if( character == board[x-1][y] ){
             x--;  //char is found, so adjust coordinates for function call
             used.push_back( character );  //add character to vector
-	    flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
+	        flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
             //return flag here to signify if word was found?
-        }
-	else{
-             flag = 0;  //character was not found in neighbors
         }
      } 
 
@@ -114,11 +111,8 @@ int BogglePlayer:: findNextChar( int x, int y, string word, vector<string> used)
         if( character == board[x+1][y] ){
             x++;  //char is found, so adjust coordinates for fn call
             used.push_back(character); //add character to vector
-	    flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
+	        flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
             //return flag here to signify if word was found?            
-        }
-        else{
-             flag = 0; //character not found in neighbors
         }
     }
 
@@ -131,9 +125,6 @@ int BogglePlayer:: findNextChar( int x, int y, string word, vector<string> used)
            flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
            //return flag here to signify if word was found?
        }
-       else{
-            flag = 0;  //character not found in neighbors
-       }
     }
 
     //check if coordinate is on board
@@ -145,9 +136,6 @@ int BogglePlayer:: findNextChar( int x, int y, string word, vector<string> used)
            flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
            //return flag here to signify if word was found?
        }
-       else{
-            flag = 0; //character not found in neighbors
-       }
     }
         
     //return the final result of flag?
@@ -156,48 +144,41 @@ int BogglePlayer:: findNextChar( int x, int y, string word, vector<string> used)
     else
        return flag;     
 }
-=======
 
->>>>>>> 8c5c479724cc6abe3f8502fbfc079707afbbfe69
-
-vector<int> BogglePlayer::isOnBoard(const string& word_to_check){
-    queue<char> boardqueue;
-    vector<int> location;
-
+vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
     // If the param word_to_check is on the board, then return a vector of the positions of letters
     // in proper word order - R * Width + C
     
     // Return empty vector if the word is not on the board or if setBoard() hasn't been called yet
-<<<<<<< HEAD
-    if(setCalled == false)
+
+    if(!setCalled)
         return location;
     
     int wordpos = 0;
     for (int j = 0; j < row; j++) {
         for (int i = 0; i < col; i++) {
-             //check char from board and check first char of word_to_check
-	            
-	     std::string str = word_to_check.substr(0, 1); //start at index[0], only take one letter
+            //check char from board and check first char of word_to_check    
+	        std::string str = word_to_check.substr(0, 1); //start at index[0], only take one letter
              if( str == board[i][j]){
                  //If first char matches, call helper func
                 int pos = findNextChar( i, j, word_to_check.substr(1, word_to_check.length() - 1), used );	
              }
-=======
-    if (setCalled == false)
-        return location;
-    
-<<<<<<< HEAD
+        }
+    }
+
+
+/*
     for (int j = 0; j < row; j++) {
         for (int i = 0; i < col; i++) {
            boardqueue.push( board[i][j] );
-=======
+
     for (int i = 0; i < col; i++) {
         for (int j = 0; j < rows; i++) {
-           boardqueue.add 
->>>>>>> 8c5c479724cc6abe3f8502fbfc079707afbbfe69
->>>>>>> 540bfdbbeff961c62aead8b765436a1eecb5f731
+           //boardqueue.add 
         }
     }
+
+    */
 }
 
 
