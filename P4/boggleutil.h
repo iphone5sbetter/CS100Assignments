@@ -34,14 +34,15 @@ private:
 
  void makeEmpty(alphaNode* &curr);
  
-protected:
- /* Create alphaNode* root and size */
- alphaNode* root;
- unsigned int size;
 
 
 
 public:
+
+    /* Create alphaNode* root and size */
+    alphaNode* root;
+    unsigned int size;
+
     /* root = nullptr; size = 0; */
     alphaTrie() : root(nullptr), size(0) {}
 

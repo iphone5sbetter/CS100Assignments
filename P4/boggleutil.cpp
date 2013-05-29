@@ -49,5 +49,24 @@ void alphaTrie:: insert(const string &word){
 }
 
 bool alphaTrie:: find(const string &word){
+    if (root == nullptr) {
+        return false;
+    }
 
+    alphaNode *current = this -> root;
+
+    for (int i = 0; i < word.length(); i++) {
+        int pos = word[i] - 97;
+
+        // Chec to see if there's a node there
+        if (current -> child[pos] == nullptr) {
+            return false;
+        }
+        else {
+            current = current -> child[pos];
+        }
+
+        if (i == word.length() - 1)
+            return current -> flag;
+    }
 }
