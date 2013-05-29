@@ -91,17 +91,18 @@ bool BogglePlayer::isInLexicon(const string& word_to_check){
 
 vector<int> BogglePlayer::isOnBoard(const string& word_to_check){
     queue<char> boardqueue;
+    vector<int> location;
 
     // If the param word_to_check is on the board, then return a vector of the positions of letters
     // in proper word order - R * Width + C
     
     // Return empty vector if the word is not on the board or if setBoard() hasn't been called yet
     if (setCalled == false)
-        return NULL;
+        return location;
     
-    for (int i = 0; i < col; i++) {
-        for (int j = 0; j < rows; i++) {
-           boardqueue.add 
+    for (int j = 0; j < row; j++) {
+        for (int i = 0; i < col; i++) {
+           boardqueue.push( board[i][j] );
         }
     }
 }
