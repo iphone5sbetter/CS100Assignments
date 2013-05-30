@@ -103,15 +103,11 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
     //TOP NEIGHBOR
      if( j - 1 >= 0 ){
         //check if letter at j-1, i is next letter
-        if( character == board[j-1][i] )
-        {
-            if (used[j-1][i] != true) {
-                location.push_back( (j-1) * col + i);
-                j--;  //char is found, so adjust coordinates for function call
-                // used.push_back( character );  //add character to vector
-            
-            
-                if ( word.length() != 1) 
+        if( character == board[j-1][i] ){
+            j--; //update coordinate
+            if (used[j][i] != true) {
+                location.push_back( j * col + i ); //push location into vector
+                if ( word.length() != 1 ) 
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
                 else 
                     return 1;
@@ -121,14 +117,11 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
 
      //BOTTOM NEIGHBOR
      if( j + 1 < this -> row ){
-                 //check if letter at j+1,i is next letter
+        //check if letter at j+1,i is next letter
         if( character == board[j+1][i] ){
             j++;
             if (used[j][i] != true) {
                 location.push_back( j * col + i);
-                //j++;  //char is found, so adjust coordinates for fn call
-                //used.push_back(character); //add character to vector
-
                 if ( word.length() != 1) 
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
                 else 
@@ -140,13 +133,10 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
     //LEFT NEIGHBOR
     if( i - 1 >= 0 ){
        //check if letter at j,i-1 is next letter
-        if( character == board[j][i-1] )
-        {
-            if (used[j][i-1] != true) {
-                location.push_back( j * col + (i-1));
-                i--;  //char is found, so adjust coordinates for fn call
-                //used.push_back( character ); //add character to vector
-
+        if( character == board[j][i-1] ){
+            i--;
+            if (used[j][i] != true) {
+                location.push_back( j * col + i);
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
@@ -157,14 +147,11 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
 
     //RIGHT NEIGHBOR
     if( i + 1 < this -> col  ){
-        cout << "Should go in here" << endl;
        //check if letter at j, i+1 is next letter
         if( character == board[j][i+1] ){
-            if (used[j][i+1] != true) {
-                cout << "FOUNNND" << endl;
-                location.push_back( j * col + (i + 1));
-                i++;
- 
+            i++;
+            if (used[j][i] != true) {
+                location.push_back( j * col + i);
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
@@ -175,15 +162,12 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
 
     //TOP LEFT NEIGHBOR
     if( i - 1 >= 0 && j - 1 >= 0 ){
- 
        //check if letter at j, i+1 is next letter
         if( character == board[j-1][i-1] ){
-            cout << "FOUNNND" << endl;
-            if (used[j-1][i-1] != true) {
-                location.push_back( (j - 1) * col + (i - 1));
-                i--;
-                j--;
-
+            i--;
+            j--;
+            if (used[j][i] != true) {
+                location.push_back( j * col + i);
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
@@ -194,15 +178,12 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
 
     //TOP RIGHT NEIGHBOR
     if( i + 1 < this -> row && j - 1 >= 0 ){
- 
        //check if letter at j, i+1 is next letter
         if( character == board[j-1][i+1] ){
-
-            if (used[j-1][i+1] != true) {
-                location.push_back( (j - 1) * col + (i + 1));
-                i++;
-                j--;
-
+            j--;
+            i++;
+            if (used[j][i] != true) {
+                location.push_back( j * col + i );
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
@@ -220,7 +201,6 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
             j++;
             if (used[j][i] != true) {
                 location.push_back( j * col + i);
-
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
@@ -229,15 +209,15 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
        }
     }
 
+
     //BOTTOM RIGHT NEIGHBOR
     if( i + 1 < this->row && j + 1 < this -> col ){
- 
        //check if letter at j, i+1 is next letter
         if( character == board[j+1][i+1] ){
             i++;
             j++;
             if (used[j][i] != true) {
-                location.push_back( j * col + i);
+                location.push_back( j * col + i );
             
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
@@ -264,8 +244,6 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
         }
     }
 
-
-
     // If the param word_to_check is on the board, then return a vector of the positions of letters
     // in proper word order - R * Width + C
     
@@ -280,11 +258,8 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
         for (int i = 0; i < col; i++) {
             //check char from board and check first char of word_to_check    
 	        std::string str = word_to_check.substr(0, 1); //start at index[0], only take one letter
-            //std::cout << "substr " << str << endl;
-            //std::cout << "boardji " << board[j][i] << endl;
              if( str == board[j][i] && found != 1){
                  // Found the character, add to locations
-
                 location.push_back( j * col + i);
                 if (word_to_check.length() > 1) {
                     used[j][i] = true;
