@@ -13,10 +13,6 @@ class BogglePlayer: public BaseBogglePlayer {
         bool isInLexicon(const string& word_to_check)  ;
         vector<int> isOnBoard(const string& word_to_check)  ;
         void getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols)  ;
- 
- 
-       
-
 
     private:
         //create the alphaTrie
@@ -26,9 +22,6 @@ class BogglePlayer: public BaseBogglePlayer {
         unsigned int row;
         bool buildCalled = false;
         bool setCalled = false;
-        vector<int> location;
-       
-        int findNextChar( int x, int y, string word, bool **used);
 };
 
 #endif //BOGGLEPLAYER_H

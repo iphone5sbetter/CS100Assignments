@@ -31,7 +31,7 @@ void alphaTrie:: insert(const string &word){
     // For every letter in the word
     for (int i = 0; i < word.length(); i++) {
         int pos = word[i] - 97; // Convert the letter into a position
-        std::cout << "Char position: " << pos << endl; 
+        
         // Check to see if there's a node already there
         if ( current -> child[pos] == nullptr ) {
             alphaNode* newnode = new alphaNode(); // Create a child node
