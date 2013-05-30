@@ -26,10 +26,9 @@ class BogglePlayer: public BaseBogglePlayer {
         unsigned int row;
         bool buildCalled = false;
         bool setCalled = false;
- 	    vector<string> used; 
         vector<int> location;
        
-        int findNextChar( int x, int y, string word, vector<string> used);
+        int findNextChar( int x, int y, string word, bool **used);
 };
 
 #endif //BOGGLEPLAYER_H
