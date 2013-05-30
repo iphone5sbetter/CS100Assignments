@@ -57,12 +57,11 @@ int main (int argc, char* argv[]) {
 
     // Hard CUSTOM
     locations.clear();
-    locations = p->isOnBoard("abcfi");
-    if(locations.size() != 3) {
+    locations = p->isOnBoard("ihgdefcba");
+    if(locations.size() != 9) {
         for (int i = 0; i < locations.size(); i++) {
-            std::cout << locations[i];
+            std::cout << locations[i] << std::endl;
         }
-        std::cout << endl;
         std::cerr << "Apparent problem with isOnBoard #MEGACUSTOM." << std::endl;
         return -1;
     }
