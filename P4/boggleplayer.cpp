@@ -12,7 +12,9 @@ void BogglePlayer::buildLexicon(const std::set<string>& word_list){
   this -> t = new alphaTrie();
 
   while(it != end){
-   t->insert(*it);   //insert into t using alphaTrie's insert
+   t -> insert(*it);   //insert into t using alphaTrie's insert
+
+   // Should test
    it++;
   }
     buildCalled = true;
@@ -89,57 +91,83 @@ bool BogglePlayer::isInLexicon(const string& word_to_check){
 
 
 // returns 1 if complete word is found, returns 0 if word not found
-int BogglePlayer:: findNextChar( int x, int y, string word, vector<string> used){
-     int flag = 0;
-
+int BogglePlayer:: findNextChar( int j, int i, string word, vector<string> used){
+     int flag = 0; 
      std::string character = word.substr(0, 1);  //take next character
-     
 
+     std::cout << "Find called with: " << j << " " << i << " " << word << " " << endl; 
+     std::cout << "Looking for character: " << character << endl;
+     
     //check if coordinate is on board
-     if( x - 1 >= 0 ){
+     if( j - 1 >= 0 ){
         //check if letter at x-1, y is next letter
-        if( character == board[x-1][y] ){
-            x--;  //char is found, so adjust coordinates for function call
-            used.push_back( character );  //add character to vector
+        if( character == board[j-1][i] )
+        {
+            location.push_back( (j-1) * col + i);
+            j--;  //char is found, so adjust coordinates for function call
+            // used.push_back( character );  //add character to vector
+            
+            
             if ( word.length() != 1) 
-	            flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
-            //return flag here to signify if word was found?
+	            flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
+            else 
+                return 1;
         }
      } 
 
      //check if coordinate is on board
-     if( x + 1 < this -> row ){
-        //check if letter at x+1,y is next letterlk
-        if( character == board[x+1][y] ){
-            x++;  //char is found, so adjust coordinates for fn call
+     if( j + 1 < this -> row ){
+                 //check if letter at x+1,y is next letterlk
+        if( character == board[j+1][i] ){ 
+            location.push_back( (j+1) * col + i);
+            j++;  //char is found, so adjust coordinates for fn call
             used.push_back(character); //add character to vector
-            if ( word.length() != 1)
-	            flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
+
+
+            
+            if ( word.length() != 1) 
+	            flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
+            else 
+                return 1;
+            
             //return flag here to signify if word was found?            
         }
     }
 
     //check if coordinate is on board
-    if( y - 1 >= 0 ){
+    if( i - 1 >= 0 ){
        //check if letter at x,y-1 is next letter
-        if( character == board[x][y-1] ){
-           y--;  //char is found, so adjust coordinates for fn call
+        if( character == board[j][i-1] )
+        {
+            location.push_back( j * col + (i-1));
+           i--;  //char is found, so adjust coordinates for fn call
            used.push_back( character ); //add character to vector
-        if ( word.length() != 0)
-            flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
-           //return flag here to signify if word was found?
+
+
+             if ( word.length() != 1)
+	            flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
+            else
+                return 1;
        }
     }
 
     //check if coordinate is on board
-    if( y + 1 < this -> col ){
+    if( i + 1 < this -> col &&  ){
+        cout << "Should go in here" << endl;
+
        //check if letter at x, y+1 is next letter
-        if( character == board[x][y+1] ){
-           y++;  //char is found, so adjust coordinates for fn call
-           used.push_back( character ); //add character to vector
-        if ( word.length() != 1)
-           flag = findNextChar( x, y, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
-           //return flag here to signify if word was found?
+        if( character == board[j][i+1] ){
+            cout << "FOUNNND" << endl;
+            location.push_back( j * col + (i + 1));
+           i++;
+
+           //used.push_back( character ); //add character to vector
+
+            
+            if ( word.length() != 1)
+	            flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
+            else
+                return 1;
        }
     }
         
@@ -148,6 +176,7 @@ int BogglePlayer:: findNextChar( int x, int y, string word, vector<string> used)
 }
 
 vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
+    vector<int> templocation;
     // If the param word_to_check is on the board, then return a vector of the positions of letters
     // in proper word order - R * Width + C
     
@@ -162,26 +191,31 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
         for (int i = 0; i < col; i++) {
             //check char from board and check first char of word_to_check    
 	        std::string str = word_to_check.substr(0, 1); //start at index[0], only take one letter
-             if( str == board[i][j] && found != 1){
-                 //If first char matches, call helper func
-                found = findNextChar( i, j, word_to_check.substr(1, word_to_check.length() - 1), used );	
+            //std::cout << "substr " << str << endl;
+            //std::cout << "boardji " << board[j][i] << endl;
+             if( str == board[j][i] && found != 1){
+                 // Found the character, add to locations
+
+                location.push_back( i * col + j);
+                if (word_to_check.length() > 1)
+                    found = findNextChar( j, i, word_to_check.substr(1, word_to_check.length() - 1), used );	
              }
         }
     }
 
     std::cout << "Found? - " << found << endl;
-/*
-    for (int j = 0; j < row; j++) {
-        for (int i = 0; i < col; i++) {
-           boardqueue.push( board[i][j] );
 
-    for (int i = 0; i < col; i++) {
-        for (int j = 0; j < rows; i++) {
-           //boardqueue.add 
+    if (location.size() > 0) {
+        cout << "Printing indices: ";
+        templocation = location;
+        for (int i = 0; i < templocation.size(); i++) {
+            cout << templocation[i];
         }
-    }
 
-    */
+        cout << endl;
+    }
+    location.clear();
+    return templocation;
 }
 
 

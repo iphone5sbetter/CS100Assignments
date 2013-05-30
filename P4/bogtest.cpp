@@ -13,15 +13,16 @@ int main (int argc, char* argv[]) {
   string wordX("x");
   lex.insert(wordA);
   lex.insert("z");
-  string row0[] = {"D","C"};
-  string row1[] = {"b","A"};
-  string* board[] = {row0,row1};
+  string row0[] = {"a","b", "c"};
+  string row1[] = {"d","e", "f"};
+  string row2[] = {"g", "h", "i"};
+  string* board[] = {row0,row1, row2};
   set<string> words;
   vector<int> locations;
 
   p->buildLexicon(lex);
 
-  p->setBoard(2,2,board);
+  p->setBoard(3,3,board);
 
   if(p->isInLexicon(wordX)) {
     std::cerr << "Apparent problem with isInLexicon #1." << std::endl;
@@ -32,6 +33,7 @@ int main (int argc, char* argv[]) {
     return -1;
   }
 
+  /*
   if(p->isOnBoard(wordX).size() > 0) {
     std::cerr << "Apparent problem with isOnBoard #1." << std::endl;
     return -1;
@@ -42,9 +44,30 @@ int main (int argc, char* argv[]) {
   if(locations.size() != 1 || locations[0] != 3) {
     std::cerr << "Apparent problem with isOnBoard #2." << std::endl;
     return -1;
-  }
+  } */
+
+  /*
+  // CUSTOM
+    locations.clear();
+    locations = p->isOnBoard("dc");
+    if(locations.size() != 2 || locations[0] != 0 || locations[1] != 1) {
+        std::cerr << "Apparent problem with isOnBoard #CUSTOM." << std::endl;
+        return -1;
+    }*/
+
+    // Hard CUSTOM
+    locations.clear();
+    locations = p->isOnBoard("abcfi");
+    if(locations.size() != 3) {
+        for (int i = 0; i < locations.size(); i++) {
+            std::cout << locations[i];
+        }
+        std::cout << endl;
+        std::cerr << "Apparent problem with isOnBoard #MEGACUSTOM." << std::endl;
+        return -1;
+    }
   
-  
+ /* 
   if(!p->getAllValidWords(0,&words)) {
     std::cerr << "Apparent problem with getAllValidWords #1." << std::endl;
     return -1;
@@ -53,7 +76,7 @@ int main (int argc, char* argv[]) {
     std::cerr << "Apparent problem with getAllValidWords #2." << std::endl;
     return -1;
   }
-
+*/
   delete p;
   return 0;
 
