@@ -31,7 +31,6 @@ void alphaTrie:: insert(const string &word){
     // For every letter in the word
     for (int i = 0; i < word.length(); i++) {
         int pos = word[i] - 97; // Convert the letter into a position
-        
         // Check to see if there's a node already there
         if ( current -> child[pos] == nullptr ) {
             alphaNode* newnode = new alphaNode(); // Create a child node
@@ -57,7 +56,6 @@ bool alphaTrie:: find(const string &word){
 
     for (int i = 0; i < word.length(); i++) {
         int pos = word[i] - 97;
-
         // Chec to see if there's a node there
         if (current -> child[pos] == nullptr) {
             return false;
@@ -66,7 +64,8 @@ bool alphaTrie:: find(const string &word){
             current = current -> child[pos];
         }
 
-        if (i == word.length() - 1)
+        if (i == word.length() - 1){
             return current -> flag;
+           }
     }
 }
