@@ -70,9 +70,9 @@ int main (int argc, char* argv[]) {
     }*/
 
     // Hard CUSTOM
-    /*
+    
     locations.clear();
-    locations = p->isOnBoard("afkplh");
+    locations = p->isOnBoard("abcd");
 
     for (int i = 0; i < locations.size(); i++) {
             std::cout << locations[i] << std::endl;
@@ -83,7 +83,7 @@ int main (int argc, char* argv[]) {
         std::cerr << "Word FOUND" << endl;
 
     std::cerr << "Check indices for #MEGACUSTOM." << std::endl;
-    */
+    
   
   /*
   if( !p -> getAllValidWords(0,&words)) {

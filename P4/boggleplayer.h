@@ -13,10 +13,8 @@ class BogglePlayer: public BaseBogglePlayer {
         bool isInLexicon(const string& word_to_check)  ;
         vector<int> isOnBoard(const string& word_to_check)  ;
         void getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols)  ;
- 
- 
-       
 
+        //std::string toLowerCase(std::string strToConvert);
 
     private:
         //create the alphaTrie

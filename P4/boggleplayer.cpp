@@ -6,16 +6,25 @@
  * load the words into an efficient datastructure that will be used internally as needed
  * by the BogglePlayer
  */
+
+
+static std::string toLowerCase(std::string strToConvert){
+  std::string res;
+  for (std::string::iterator p = strToConvert.begin(); strToConvert.end() != p; ++p)
+    res += tolower(*p);
+  return res;
+}
+
 void BogglePlayer::buildLexicon(const std::set<string>& word_list){
   set<string>:: const_iterator it = word_list.begin();
   set<string>:: const_iterator end = word_list.end();
   this -> t = new alphaTrie();
 
   while(it != end){
-   t -> insert(*it);   //insert into t using alphaTrie's insert
+      t -> insert(toLowerCase(*it));   //insert into t using alphaTrie's insert
 
-   // Should test
-   it++;
+      // Should test
+      it++;
   }
     buildCalled = true;
 }
@@ -34,7 +43,8 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
    for(unsigned int r = 0; r < rows; r++){
     board[r] = new string[cols];           // need explanation
 	for(unsigned int c = 0; c < cols; c++){
-	 this->board[r][c] = diceArray[r][c];
+	 this->board[r][c] = toLowerCase(diceArray[r][c]);
+     std::cout << "Board: " << diceArray[r][c] << endl;
 	}
   }
 
@@ -283,17 +293,15 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
     return flag;
 }
 
-static std::string toLowerCase(std::string strToConvert){
-  std::string res;
-  for (std::string::iterator p = strToConvert.begin(); strToConvert.end() != p; ++p)
-    res += tolower(*p);
-  return res;
-}
-
 
 
 vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
     
+    if(!setCalled)
+        return location;
+
+    string news = toLowerCase(word_to_check);
+    std::cout << "LOOKIN FOR: " << news << endl;
     vector<int> templocation;
     bool **used = new bool*[row];
     for (int i = 0; i < row; i++) {
@@ -310,9 +318,7 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
     
     // Return empty vector if the word is not on the board or if setBoard() hasn't been called yet
 
-    if(!setCalled)
-        return location;
-    
+        
     int wordpos = 0;
     int found = 0;
     for (int j = 0; j < row; j++) {
