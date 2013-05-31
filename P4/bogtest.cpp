@@ -16,31 +16,37 @@ int main (int argc, char* argv[]) {
 
   //lex.insert(wordA);
   lex.insert("efgh");
+  lex.insert("abc");
+lex.insert("cfk");
+lex.insert("lko");
+lex.insert("mno");
 
 
-  /*
+
+  
   string row0[] = {"a","b", "c", "d"};
   string row1[] = {"e","f", "g", "h" };
   string row2[] = {"i", "j", "k", "l"};
   string row3[] = {"m", "n", "o", "p"};
-  */
-
+  
+/*
   string row0[] = {"h","g"};
   string row1[] = {"e","f"};
+  */
 
-  string* board[] = {row0,row1};
+  string* board[] = {row0,row1, row2, row3};
   set<string> words;
   vector<int> locations;
 
   p->buildLexicon(lex);
 
-  p->setBoard(2,2,board);
+  p->setBoard(4,4,board);
 
-  
+  /*
   if(!p->isInLexicon("efgh")) {
     std::cerr << "Apparent problem with isInLexicon #1." << std::endl;
     return -1;
-  }
+  } */
 
  /* if(!p->isInLexicon(wordA)) {
     std::cerr << "Apparent problem with isInLexicon #2." << std::endl;
@@ -71,6 +77,7 @@ int main (int argc, char* argv[]) {
 
     // Hard CUSTOM
     
+  /*
     locations.clear();
     locations = p->isOnBoard("abcd");
 
@@ -82,7 +89,7 @@ int main (int argc, char* argv[]) {
     else
         std::cerr << "Word FOUND" << endl;
 
-    std::cerr << "Check indices for #MEGACUSTOM." << std::endl;
+    std::cerr << "Check indices for #MEGACUSTOM." << std::endl; */
     
   
   /*
@@ -100,7 +107,7 @@ int main (int argc, char* argv[]) {
     std::cout << "Get valid words return no words" << endl;
   }
 
-  if (words.size() != 4) {
+  if (words.size() != 5) {
     std::cout << "Get valid words does not contain 4. It contains: " << words.size() << endl;
   }
   //std::cout << "Get valid words does not contain 4. It contains: " << words.size() << endl;

@@ -51,6 +51,63 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
    setCalled = true;
 }
 
+void BogglePlayer::findMoreWords(int r, int c, string word, bool** visited, set<string>* words ) {
+    visited[r][c] = true;
+
+   // cout << "Before appended: " << word << endl;
+    string str = board[r][c];
+
+    word.append(str); 
+    //cout << "After appended: " << word << endl;
+
+    if (isInLexicon(word)) {
+        //return;
+        //cout << "in lexicon" << endl;
+        words -> insert(word);
+    }
+            // if the next indices are on the board and not in isvisited, recurse
+        if (r-1 >= 0)// && 
+           if (!visited[r-1][c]) 
+                findMoreWords(r-1, c, word, visited, words);
+           
+
+        if (c-1 >= 0)// && 
+            if (!visited[r][c-1]) 
+                findMoreWords(r, c-1, word, visited, words);
+            
+
+        if (r+1 < row)// && 
+           if (!visited[r+1][c]) 
+                findMoreWords(r+1, c, word, visited, words);
+           
+        if (c+1 < col)// && 
+            if (!visited[r][c+1]) 
+                findMoreWords(r, c+1, word, visited, words);
+            
+        // top left
+        if (r-1 >= 0 && c-1 >=0)// &&// 
+            if (!visited[r-1][c-1]) 
+                findMoreWords(r-1, c-1, word, visited, words);
+            
+        // top right
+        if (r-1 >= 0 && c+1 < col)// && 
+            if (!visited[r-1][c+1]) 
+                findMoreWords(r-1, c+1, word, visited, words);
+            
+        // bottom left
+        if (r+1 < row && c-1 >=0)// && 
+            if( !visited[r+1][c-1]) {
+                findMoreWords(r+1, c-1, word, visited, words);
+            }
+        // bottom right
+        if (r+1 < row && c+1 < col)// && 
+            if (!visited[r+1][c+1]) 
+                findMoreWords(r+1, c+1, word, visited, words);
+            
+
+        visited[r][c] = false;
+        
+    }
 
 /*
  * Takes an int specifying min word length, and a pointer to a ste of strings. Returns
@@ -62,11 +119,11 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
  *     specified by the most recent call to setBoard()
  */
 bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string>* words ){
-
     // Return false if buildLexicon() or setBoard() hasn't been build yet
     if (buildCalled == false || setCalled == false)
         return false;
 
+    // 2-D array of bools for used
     bool **used = new bool*[row];
     for (int i = 0; i < row; i++) {
         used[i] = new bool[col];
@@ -74,10 +131,6 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
             used[i][j] = false;
         }
     }
-
-
-
-
     // speed will change depending on if you call isInLexicon or isOnBoard first
 
     // To get all words on board...
@@ -85,6 +138,13 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
     // Dequeue the first one, queue up all spaces that haven't been checked yet
     
     //BogglePlayer::dealWithTrie( t -> root, "", 0, minimum_word_length, words, used );
+cout << "Starting getwords..." << endl;
+    for (int r = 0; r < row; r++)
+        for (int c = 0; c < col; c++) {
+            BogglePlayer::findMoreWords( r, c, "", used, words);
+        }
+
+    cout << "Finished get all validwords" << endl;
     return true; 
 }
 
@@ -231,7 +291,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 location.push_back( j * col + i );
             
                 if ( word.length() != 1)
-	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
+	                flag =  findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
                     flag = 1;
             }
@@ -272,15 +332,13 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
             //check char from board and check first char of word_to_check    
 	        std::string str = word_to_check.substr(0, 1); //start at index[0], only take one letter
              if( str == board[j][i] && found != 1){
-                 location.clear();
+                location.clear();
                  // Found the character, add to locations
                 location.push_back( j * col + i);
                 if (word_to_check.length() > 1) {
                     used[j][i] = true;
                     found = findNextChar( j, i, word_to_check.substr(1, word_to_check.length() - 1), used );	
                 }
-
-
              }
         }
     }
@@ -291,7 +349,7 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
         cout << "Printing indices: ";
         templocation = location;
         for (int i = 0; i < templocation.size(); i++) {
-            cout << templocation[i];
+            cout <<" " << templocation[i];
         }
         cout << endl;
     }
