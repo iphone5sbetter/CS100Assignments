@@ -51,55 +51,17 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
    setCalled = true;
 }
 
-
-void BogglePlayer::dealWithTrie(alphaNode *node, string word, int length, int minLength, set<string>* words) {
+/*
+void BogglePlayer::dealWithTrie(alphaNode *node, string word, int length, int minLength, set<string>* words, bool **used) {
     vector<int> locations;
 
-    std::cout << "dealwithtrie called with: " << word << " Length: " << length << endl;
-
-    if (node == nullptr){
-        std::cout << "Node was nullptr" << endl;
-        return;
-    }
-      
-    // Loop through all 26 alphabetical characters
-    for (int i = 0; i < 26; i++)
-    {
-        std::cout << "i Before - " << i << endl;
-        // See if node -> child[i] exists,
-        if (node -> child[i] != nullptr ) {
-            // If not, - continue 
-            //
-        std::cout << "i After - " << i << endl;
-
-
-        // Then convert child[i] into character and add to word
+    std::cout << "dealwithtrie called with: " << word << " " << length << endl;
+        // concat the word
         char ch = i + 97;
         word.append(&ch);
         std::cout << "New word: " << word << endl;
-        //---- Add character to the word here
-        
-        // Then see if whole word is on the board 
-        locations = BogglePlayer::isOnBoard(word);
-        if ( locations.size() > 0 ) // deal with vector conversion!
-        {
-            std::cout << "Word is on the board" << endl;
-            // Then increase length by 1 
-            length++;
 
-            // Then see if the length is greater than or equal to the minimum length and if flag == true
-            if ( length >= minLength && node -> flag == true )
-            {
-                // If so, add the word to the set
-                words -> insert(word);
-                std::cout << "Attempting to insert word: " << word << endl;
-            }
-            // Regardless of all else, call 
-            BogglePlayer::dealWithTrie( node -> child[i], word, length, minLength, words );
-        }
-    }
-    }
-}
+}*/
 
 
 /*
@@ -111,28 +73,30 @@ void BogglePlayer::dealWithTrie(alphaNode *node, string word, int length, int mi
  *  3) Can be found following an acyclic simple path on the board 
  *     specified by the most recent call to setBoard()
  */
-bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string>* words){
+bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string>* words ){
 
     // Return false if buildLexicon() or setBoard() hasn't been build yet
     if (buildCalled == false || setCalled == false)
         return false;
 
+    bool **used = new bool*[row];
+    for (int i = 0; i < row; i++) {
+        used[i] = new bool[col];
+        for (int j = 0; j < col; j++) {
+            used[i][j] = false;
+        }
+    }
+
+
+
 
     // speed will change depending on if you call isInLexicon or isOnBoard first
-
-    // Returns true after settin the set of words "words" (the param) with word that:
-    //  - meet the minimum_word_length
-    //  - are in the lexicon specified by the most recent call to buildLexicon()
-    //  - can be found by an acyclical simple path on the board --- Hella hard part
-    //  ^just call isOnBoard for the last part
-    
-    // Need to loop through both board and lexicon, find words on the board and see if they're in the lexicon
 
     // To get all words on board...
     // Make a queue of all non-check spaces on the board
     // Dequeue the first one, queue up all spaces that haven't been checked yet
     
-    BogglePlayer::dealWithTrie( t -> root, "", 0, minimum_word_length, words );
+    //BogglePlayer::dealWithTrie( t -> root, "", 0, minimum_word_length, words, used );
     return true; 
 }
 
@@ -173,7 +137,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 if ( word.length() != 1 ) 
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
                 else 
-                    return 1;
+                    flag = 1;
             }
         }
      } 
@@ -188,7 +152,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 if ( word.length() != 1) 
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
                 else 
-                    return 1;  
+                    flag = 1;  
             }
         }
     }
@@ -203,7 +167,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
-                    return 1;
+                    flag = 1;
             }
        }
     }
@@ -218,7 +182,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
-                    return 1;
+                    flag = 1;
             }
        }
     }
@@ -234,7 +198,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
-                    return 1;
+                    flag = 1;
             }
        }
     }
@@ -250,7 +214,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
-                    return 1;
+                    flag = 1;
             }
        }
     }
@@ -267,7 +231,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
-                    return 1;
+                    flag = 1;
             }
        }
     }
@@ -285,7 +249,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
-                    return 1;
+                    flag = 1;
             }
        }
     }
@@ -326,12 +290,15 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
             //check char from board and check first char of word_to_check    
 	        std::string str = word_to_check.substr(0, 1); //start at index[0], only take one letter
              if( str == board[j][i] && found != 1){
+                 location.clear();
                  // Found the character, add to locations
                 location.push_back( j * col + i);
                 if (word_to_check.length() > 1) {
                     used[j][i] = true;
                     found = findNextChar( j, i, word_to_check.substr(1, word_to_check.length() - 1), used );	
                 }
+
+
              }
         }
     }
