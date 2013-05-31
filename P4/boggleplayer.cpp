@@ -42,6 +42,56 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
 }
 
 
+void BogglePlayer::dealWithTrie(alphaNode *node, string word, int length, int minLength, set<string>* words) {
+    vector<int> locations;
+
+    std::cout << "dealwithtrie called with: " << word << " Length: " << length << endl;
+
+    if (node == nullptr){
+        std::cout << "Node was nullptr" << endl;
+        return;
+    }
+      
+    // Loop through all 26 alphabetical characters
+    for (int i = 0; i < 26; i++)
+    {
+        std::cout << "i Before - " << i << endl;
+        // See if node -> child[i] exists,
+        if (node -> child[i] != nullptr ) {
+            // If not, - continue 
+            //
+        std::cout << "i After - " << i << endl;
+
+
+        // Then convert child[i] into character and add to word
+        char ch = i + 97;
+        word.append(&ch);
+        std::cout << "New word: " << word << endl;
+        //---- Add character to the word here
+        
+        // Then see if whole word is on the board 
+        locations = BogglePlayer::isOnBoard(word);
+        if ( locations.size() > 0 ) // deal with vector conversion!
+        {
+            std::cout << "Word is on the board" << endl;
+            // Then increase length by 1 
+            length++;
+
+            // Then see if the length is greater than or equal to the minimum length and if flag == true
+            if ( length >= minLength && node -> flag == true )
+            {
+                // If so, add the word to the set
+                words -> insert(word);
+                std::cout << "Attempting to insert word: " << word << endl;
+            }
+            // Regardless of all else, call 
+            BogglePlayer::dealWithTrie( node -> child[i], word, length, minLength, words );
+        }
+    }
+    }
+}
+
+
 /*
  * Takes an int specifying min word length, and a pointer to a ste of strings. Returns
  * false if setBoard() or buildLexicon() have not been called for this BogglePlayer. If they have,
@@ -54,6 +104,9 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
 bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string>* words){
 
     // Return false if buildLexicon() or setBoard() hasn't been build yet
+    if (buildCalled == false || setCalled == false)
+        return false;
+
 
     // speed will change depending on if you call isInLexicon or isOnBoard first
 
@@ -62,31 +115,31 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
     //  - are in the lexicon specified by the most recent call to buildLexicon()
     //  - can be found by an acyclical simple path on the board --- Hella hard part
     //  ^just call isOnBoard for the last part
+    
+    // Need to loop through both board and lexicon, find words on the board and see if they're in the lexicon
+
+    // To get all words on board...
+    // Make a queue of all non-check spaces on the board
+    // Dequeue the first one, queue up all spaces that haven't been checked yet
+    
+    BogglePlayer::dealWithTrie( t -> root, "", 0, minimum_word_length, words );
+    return true; 
 }
 
-
-
-
 bool BogglePlayer::isInLexicon(const string& word_to_check){
+
+    if (t -> root == nullptr) {
+        return false;
+    }
+    if (t -> find(word_to_check)) {
+        return true;
+    }
    
+    return false;
     //Find word_to_check in the alphaTrie
     if(t -> find(word_to_check)){
         return true;
     }
-
-    // why not just return false here?
-
-    //If buildLexicon() has not been called and no alphaTrie has been made
-    else if(t -> root == nullptr){
-        return false;
-    }
-
-    //if word_to_check is not in lexicon
-    else
-    {
-     return false;
-    } 
-
 }
 
 
@@ -230,11 +283,17 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
     return flag;
 }
 
-
+static std::string toLowerCase(std::string strToConvert){
+  std::string res;
+  for (std::string::iterator p = strToConvert.begin(); strToConvert.end() != p; ++p)
+    res += tolower(*p);
+  return res;
+}
 
 
 
 vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
+    
     vector<int> templocation;
     bool **used = new bool*[row];
     for (int i = 0; i < row; i++) {
@@ -243,6 +302,8 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
             used[i][j] = false;
         }
     }
+
+
 
     // If the param word_to_check is on the board, then return a vector of the positions of letters
     // in proper word order - R * Width + C

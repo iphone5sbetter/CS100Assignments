@@ -9,27 +9,39 @@ int main (int argc, char* argv[]) {
 
   BaseBogglePlayer * p = new BogglePlayer();
   set<string> lex;
+
   string wordA("a");
   string wordX("x");
+
   lex.insert(wordA);
-  lex.insert("z");
+  lex.insert("ab");
+  lex.insert("ac");
+  lex.insert("d");
+
+  /*
   string row0[] = {"a","b", "c", "d"};
   string row1[] = {"e","f", "g", "h" };
   string row2[] = {"i", "j", "k", "l"};
- string row3[] = {"m", "n", "o", "p"};
+  string row3[] = {"m", "n", "o", "p"};
+  */
 
-  string* board[] = {row0,row1, row2, row3};
+  string row0[] = {"a","b"};
+  string row1[] = {"c","d"};
+
+  string* board[] = {row0,row1};
   set<string> words;
   vector<int> locations;
 
   p->buildLexicon(lex);
 
-  p->setBoard(4,4,board);
+  p->setBoard(2,2,board);
 
-  if(p->isInLexicon(wordX)) {
+  
+  if(!p->isInLexicon("ab")) {
     std::cerr << "Apparent problem with isInLexicon #1." << std::endl;
     return -1;
   }
+
   if(!p->isInLexicon(wordA)) {
     std::cerr << "Apparent problem with isInLexicon #2." << std::endl;
     return -1;
@@ -58,8 +70,9 @@ int main (int argc, char* argv[]) {
     }*/
 
     // Hard CUSTOM
+    /*
     locations.clear();
-    locations = p->isOnBoard("afkplhkn");
+    locations = p->isOnBoard("afkplh");
 
     for (int i = 0; i < locations.size(); i++) {
             std::cout << locations[i] << std::endl;
@@ -70,17 +83,28 @@ int main (int argc, char* argv[]) {
         std::cerr << "Word FOUND" << endl;
 
     std::cerr << "Check indices for #MEGACUSTOM." << std::endl;
+    */
   
- /* 
-  if(!p->getAllValidWords(0,&words)) {
+  /*
+  if( !p -> getAllValidWords(0,&words)) {
     std::cerr << "Apparent problem with getAllValidWords #1." << std::endl;
     return -1;
-  };
-  if(words.size() != 1 || words.count(wordA) != 1) {
+  }
+
+  if( words.size() != 1 || words.count(wordA) != 1) {
     std::cerr << "Apparent problem with getAllValidWords #2." << std::endl;
     return -1;
+  } */
+
+  if ( !p -> getAllValidWords(0, &words)) {
+    std::cout << "Get valid words return no words" << endl;
   }
-*/
+
+  if (words.size() != 3) {
+    std::cout << "Get valid words does not contain 3. It contains: " << words.size() << endl;
+  }
+
+
   delete p;
   return 0;
 
