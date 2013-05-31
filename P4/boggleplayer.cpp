@@ -306,3 +306,15 @@ void BogglePlayer::getCustomBoard(string** &new_board, unsigned int *rows, unsig
 
 
 }
+
+
+
+///////////////////////// BogglePiece methods ////////////////////
+
+void BogglePiece::addAdjacentPiece(BogglePiece piecePtr) {
+    this -> adjacentPieces.push_back(piecePtr);
+}
+
+vector<BogglePiece> BogglePiece::getAdjacentPieces() {
+    return this->adjacentPieces;
+}

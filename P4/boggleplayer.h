@@ -30,4 +30,31 @@ class BogglePlayer: public BaseBogglePlayer {
         int findNextChar( int x, int y, string word, bool **used);
 };
 
+class BogglePiece {
+        vector<BogglePiece> adjacentPieces;
+
+    public:
+        string str;
+        int index;
+        int row;
+        int col;
+
+        BogglePiece() {
+
+        }
+
+        BogglePiece(string str) {
+            this->str = str;
+        }
+        BogglePiece(string str, int row, int col) {
+            this->str = str;
+            this->row = row;
+            this->col = col;
+        }
+
+        void addAdjacentPiece(BogglePiece piecePtr);
+        vector<BogglePiece>getAdjacentPieces();
+        
+};
+
 #endif //BOGGLEPLAYER_H
