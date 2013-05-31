@@ -1,0 +1,55 @@
+# Multitreaded (solution) version of the primality testing program
+# This version corresponds to part 2 of P2
+
+C++ 		= g++
+STDCPP          = --std=c++11
+ECHO		= echo
+
+C++LINK		= $(C++)
+
+OPTIMIZATION    =  -O2
+
+
+LDLIBS          = -pthread
+
+
+WARNINGS = -Wall -pedantic
+
+C++FLAGS        = $(OPTIMIZATION)  $(STDCPP) $(WARNINGS)
+LDFLAGS		= $(OPTIMIZATION) $(STDCPP)
+
+.SUFFIXES:
+.SUFFIXES: .cpp .o
+
+.cpp.o:
+	@$(ECHO)
+	@$(ECHO) "Compiling Source File --" $<
+	@$(ECHO) "---------------------"
+	$(C++) $(C++FLAGS) -c $<
+	@$(ECHO)
+
+#
+# If you want to add symbol table information for gdb/cachegrind
+# specify dbg=1 on the "make" command line
+ifeq ($(dbg), 1)
+        CFLAGS += -g
+        LDFLAGS += -g
+        C++FLAGS += -g
+endif
+
+
+
+WARNINGS += -Wall -pedantic
+
+TOBJ	= Primes.o prime_thrFn.o getInput.o isPrime.o Timer.o
+
+primes:	$(TOBJ) Report.o
+		$(C++LINK) $(LDFLAGS) -o $@ $(TOBJ) Report.o $(LDLIBS)
+
+test_primes: $(TOBJ) TestReport.o
+		$(C++LINK) $(LDFLAGS) -o $@ $(TOBJ) TestReport.o $(LDLIBS)
+
+.PHONY: clean
+clean:	
+	$(RM) *.o test_primes
+	$(RM) core

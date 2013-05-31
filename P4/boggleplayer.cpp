@@ -51,18 +51,6 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
    setCalled = true;
 }
 
-/*
-void BogglePlayer::dealWithTrie(alphaNode *node, string word, int length, int minLength, set<string>* words, bool **used) {
-    vector<int> locations;
-
-    std::cout << "dealwithtrie called with: " << word << " " << length << endl;
-        // concat the word
-        char ch = i + 97;
-        word.append(&ch);
-        std::cout << "New word: " << word << endl;
-
-}*/
-
 
 /*
  * Takes an int specifying min word length, and a pointer to a ste of strings. Returns
@@ -109,11 +97,7 @@ bool BogglePlayer::isInLexicon(const string& word_to_check){
         return true;
     }
    
-    return false;
-    //Find word_to_check in the alphaTrie
-    if(t -> find(word_to_check)){
-        return true;
-    }
+    return false;      
 }
 
 
@@ -275,8 +259,6 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
         }
     }
 
-
-
     // If the param word_to_check is on the board, then return a vector of the positions of letters
     // in proper word order - R * Width + C
     
@@ -286,7 +268,7 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
     int wordpos = 0;
     int found = 0;
     for (int j = 0; j < row; j++) {
-        for (int i = 0; i < col; i++) {
+        for (int i = 0; i < col; i++){
             //check char from board and check first char of word_to_check    
 	        std::string str = word_to_check.substr(0, 1); //start at index[0], only take one letter
              if( str == board[j][i] && found != 1){
@@ -314,6 +296,7 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
         cout << endl;
     }
     location.clear();
+    std:: cout << "templocation.size(): " << templocation.size() << std::endl;
     return templocation;
 }
 

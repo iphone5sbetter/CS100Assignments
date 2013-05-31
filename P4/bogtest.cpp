@@ -9,14 +9,14 @@ int main (int argc, char* argv[]) {
 
   BaseBogglePlayer * p = new BogglePlayer();
   set<string> lex;
+  
 
   string wordA("a");
-  string wordX("x");
+  string wordX("x"); 
 
-  lex.insert(wordA);
-  lex.insert("ab");
-  lex.insert("ac");
-  lex.insert("d");
+  //lex.insert(wordA);
+  lex.insert("efgh");
+
 
   /*
   string row0[] = {"a","b", "c", "d"};
@@ -25,8 +25,8 @@ int main (int argc, char* argv[]) {
   string row3[] = {"m", "n", "o", "p"};
   */
 
-  string row0[] = {"a","b"};
-  string row1[] = {"c","d"};
+  string row0[] = {"h","g"};
+  string row1[] = {"e","f"};
 
   string* board[] = {row0,row1};
   set<string> words;
@@ -37,16 +37,16 @@ int main (int argc, char* argv[]) {
   p->setBoard(2,2,board);
 
   
-  if(!p->isInLexicon("ab")) {
+  if(!p->isInLexicon("efgh")) {
     std::cerr << "Apparent problem with isInLexicon #1." << std::endl;
     return -1;
   }
 
-  if(!p->isInLexicon(wordA)) {
+ /* if(!p->isInLexicon(wordA)) {
     std::cerr << "Apparent problem with isInLexicon #2." << std::endl;
     return -1;
   }
-
+*/
   /*
   if(p->isOnBoard(wordX).size() > 0) {
     std::cerr << "Apparent problem with isOnBoard #1." << std::endl;
@@ -100,9 +100,11 @@ int main (int argc, char* argv[]) {
     std::cout << "Get valid words return no words" << endl;
   }
 
-  if (words.size() != 3) {
-    std::cout << "Get valid words does not contain 3. It contains: " << words.size() << endl;
+  if (words.size() != 4) {
+    std::cout << "Get valid words does not contain 4. It contains: " << words.size() << endl;
   }
+  //std::cout << "Get valid words does not contain 4. It contains: " << words.size() << endl;
+
 
 
   delete p;
