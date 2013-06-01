@@ -138,7 +138,7 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
     // Dequeue the first one, queue up all spaces that haven't been checked yet
     
     //BogglePlayer::dealWithTrie( t -> root, "", 0, minimum_word_length, words, used );
-cout << "Starting getwords..." << endl;
+    cout << "Starting getwords..." << endl;
     for (int r = 0; r < row; r++)
         for (int c = 0; c < col; c++) {
             BogglePlayer::findMoreWords( r, c, "", used, words);
@@ -187,8 +187,14 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
             if (used[j][i] != true) {
                 location.push_back( j * col + i ); //push location into vector
                 if ( word.length() != 1 ) 
+<<<<<<< HEAD
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
                 else
+=======
+	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used );
+                    // if flag is false, pop_back()//flag will be set when function returns
+                else 
+>>>>>>> e69240b7cd99e866ed21a89db167e83b07fcd49a
                     flag = 1;
             }
         }
@@ -303,6 +309,9 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
             }
        }
     }
+
+    //if (flag == 0)
+        //location.pop_back(); 
 
     return flag;
 }
