@@ -11,23 +11,26 @@ int main (int argc, char* argv[]) {
   set<string> lex;
   
 
-  string wordA("a");
-  string wordX("x"); 
+  string wordA("tit");
+ // string wordX("x"); 
 
   //lex.insert(wordA);
-  lex.insert("efgh");
-  lex.insert("abc");
+  lex.insert(wordA);
+ /* lex.insert("abc");
 lex.insert("cfk");
 lex.insert("lko");
-lex.insert("mno");
+lex.insert("mno");*/
 
 
-
-  
-  string row0[] = {"a","b", "c", "d"};
-  string row1[] = {"e","f", "g", "h" };
-  string row2[] = {"i", "j", "k", "l"};
-  string row3[] = {"m", "n", "o", "p"};
+/* Below is a random board given by running the program.
+ * The strings "pst" and "tie" were in the list of words found by the computer,
+ * and were correctly found by our program. The strings "tit" and "tits" were in the computer's
+ * list, but ours said it was not on the board.
+ */
+  string row0[] = {"a","e", "z", "e"};
+  string row1[] = {"t","i", "t", "u" };
+  string row2[] = {"t", "p", "r", "e"};
+  string row3[] = {"s", "k", "t", "r"};
   
 /*
   string row0[] = {"h","g"};
@@ -66,14 +69,15 @@ lex.insert("mno");
     return -1;
   } */
 
-  /*
+  
   // CUSTOM
     locations.clear();
-    locations = p->isOnBoard("dc");
-    if(locations.size() != 2 || locations[0] != 0 || locations[1] != 1) {
+    locations = p->isOnBoard(wordA);
+    std:: cout << "Locations size: " << locations.size() << std::endl;
+    if(locations.size() != 3) {
         std::cerr << "Apparent problem with isOnBoard #CUSTOM." << std::endl;
         return -1;
-    }*/
+    }
 
     // Hard CUSTOM
     
@@ -102,14 +106,14 @@ lex.insert("mno");
     std::cerr << "Apparent problem with getAllValidWords #2." << std::endl;
     return -1;
   } */
-
+/*
   if ( !p -> getAllValidWords(0, &words)) {
     std::cout << "Get valid words return no words" << endl;
   }
 
   if (words.size() != 5) {
     std::cout << "Get valid words does not contain 4. It contains: " << words.size() << endl;
-  }
+  }*/
   //std::cout << "Get valid words does not contain 4. It contains: " << words.size() << endl;
 
 
