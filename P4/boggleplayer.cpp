@@ -51,10 +51,17 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
    setCalled = true;
 }
 
+<<<<<<< HEAD
 void BogglePlayer::findMoreWords(int r, int c, string word, bool** visited, set<string>* words, alphaNode *node, unsigned int length ) {
     visited[r][c] = true;
 
     // get char on the board
+=======
+void BogglePlayer::findMoreWords(int r, int c, string word, bool** visited, set<string>* words ) {
+    visited[r][c] = true;;
+
+    //cout << "Before appended: " << word << endl;
+>>>>>>> 2605565bc47e76ebc488342bed212e9d6fd4c42c
     string str = board[r][c];
 
     // add it to the growing word
@@ -185,8 +192,21 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
      int flag = 0; 
      std::string character = word.substr(0, 1);  //take next character
 
+<<<<<<< HEAD
      //std::cout << "Find called with: " << j << " " << i << " " << word << " " << endl; 
      //std::cout << "Looking for character: " << character << endl;
+=======
+     std::cout << "Find called with: " << j << " " << i << " " << word << " " << endl;
+
+
+     if( used[j][i] == true)
+         std::cout << j << " " << i << " " << "true" << std::endl;
+     else
+         std::cout << j << " " << i << " " << "true" << std::endl;
+
+
+     std::cout << "Looking for character: " << character << endl;
+>>>>>>> 2605565bc47e76ebc488342bed212e9d6fd4c42c
     
      used[j][i] = true;
 
@@ -198,9 +218,14 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
             if (used[j][i] != true) {
                 location.push_back( j * col + i ); //push location into vector
                 if ( word.length() != 1 ) 
+<<<<<<< HEAD
+	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
+                else
+=======
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used );
                     // if flag is false, pop_back()//flag will be set when function returns
                 else 
+>>>>>>> e69240b7cd99e866ed21a89db167e83b07fcd49a
                     flag = 1;
             }
         }
@@ -215,7 +240,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
                 location.push_back( j * col + i);
                 if ( word.length() != 1) 
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when function returns
-                else 
+                else
                     flag = 1;  
             }
         }
@@ -283,7 +308,6 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
        }
     }
 
-
     //BOTTOM LEFT NEIGHBOR
     if( i - 1 >= 0 && j + 1 < this -> col ){
        //check if letter at j, i+1 is next letter
@@ -291,7 +315,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
             i--;
             j++;
             if (used[j][i] != true) {
-                location.push_back( j * col + i);
+		location.push_back( j * col + i);
                 if ( word.length() != 1)
 	                flag = findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
@@ -308,8 +332,7 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
             i++;
             j++;
             if (used[j][i] != true) {
-                location.push_back( j * col + i );
-            
+                 location.push_back( j * col + i );
                 if ( word.length() != 1)
 	                flag =  findNextChar( j, i, word.substr( 1, word.length()-1), used ); //flag will be set when fn returns
                 else
