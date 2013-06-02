@@ -13,7 +13,6 @@ int main (int argc, char* argv[]) {
   BaseBogglePlayer * p = new BogglePlayer();
   set<string> lex;
 
-<<<<<<< HEAD
   /*
   lex.insert("efgh");
     lex.insert("abc");
@@ -25,33 +24,6 @@ int main (int argc, char* argv[]) {
   string row1[] = {"e","f", "g", "h" };
   string row2[] = {"i", "j", "k", "l"};
   string row3[] = {"m", "n", "o", "p"}; */
-=======
-  string wordA("tit");
- // string wordX("x"); 
-
-  //lex.insert(wordA);
-  lex.insert(wordA);
- /* lex.insert("abc");
-lex.insert("cfk");
-lex.insert("lko");
-lex.insert("mno");*/
-
-
-/* Below is a random board given by running the program.
- * The strings "pst" and "tie" were in the list of words found by the computer,
- * and were correctly found by our program. The strings "tit" and "tits" were in the computer's
- * list, but ours said it was not on the board.
- */
-  string row0[] = {"a","e", "z", "e"};
-  string row1[] = {"t","i", "t", "u" };
-  string row2[] = {"t", "p", "r", "e"};
-  string row3[] = {"s", "k", "t", "r"};
-  
-/*
-  string row0[] = {"h","g"};
-  string row1[] = {"e","f"};
-  */
->>>>>>> 2605565bc47e76ebc488342bed212e9d6fd4c42c
 
   
   //string* board[] = {row0,row1, row2, row3};
@@ -124,15 +96,14 @@ set<string> words;
     return -1;
   } */
 
-  
+  /*
   // CUSTOM
     locations.clear();
-    locations = p->isOnBoard(wordA);
-    std:: cout << "Locations size: " << locations.size() << std::endl;
-    if(locations.size() != 3) {
+    locations = p->isOnBoard("dc");
+    if(locations.size() != 2 || locations[0] != 0 || locations[1] != 1) {
         std::cerr << "Apparent problem with isOnBoard #CUSTOM." << std::endl;
         return -1;
-    }
+    }*/
 
     // Hard CUSTOM
     
@@ -161,7 +132,6 @@ set<string> words;
     std::cerr << "Apparent problem with getAllValidWords #2." << std::endl;
     return -1;
   } */
-<<<<<<< HEAD
 
   if ( !p -> getAllValidWords(2, &words)) {
     std::cout << "Get valid words return no words" << endl;
@@ -169,16 +139,6 @@ set<string> words;
 
   std::cout << "Get valid words contains: " << words.size() << endl;
   
-=======
-/*
-  if ( !p -> getAllValidWords(0, &words)) {
-    std::cout << "Get valid words return no words" << endl;
-  }
-
-  if (words.size() != 5) {
-    std::cout << "Get valid words does not contain 4. It contains: " << words.size() << endl;
-  }*/
->>>>>>> 2605565bc47e76ebc488342bed212e9d6fd4c42c
   //std::cout << "Get valid words does not contain 4. It contains: " << words.size() << endl;
 
 
