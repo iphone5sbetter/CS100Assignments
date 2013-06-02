@@ -1,4 +1,5 @@
 #include "boggleplayer.h"
+#include "boggleboard.h"
 #include <queue>
 /*
  * Takes as argument a set containing words specifying the official lexicon to be used. 
@@ -6,7 +7,7 @@
  * load the words into an efficient datastructure that will be used internally as needed
  * by the BogglePlayer
  */
-
+std::set<string> lexicon_words;
 
 static std::string toLowerCase(std::string strToConvert){
   std::string res;
@@ -44,70 +45,88 @@ void BogglePlayer::setBoard(unsigned int rows, unsigned int cols, string** diceA
     board[r] = new string[cols];           // need explanation
 	for(unsigned int c = 0; c < cols; c++){
 	 this->board[r][c] = toLowerCase(diceArray[r][c]);
-     std::cout << "Board: " << diceArray[r][c] << endl;
 	}
   }
 
    setCalled = true;
 }
 
-void BogglePlayer::findMoreWords(int r, int c, string word, bool** visited, set<string>* words ) {
+void BogglePlayer::findMoreWords(int r, int c, string word, bool** visited, set<string>* words, alphaNode *node, unsigned int length ) {
     visited[r][c] = true;
 
-   // cout << "Before appended: " << word << endl;
+    // get char on the board
     string str = board[r][c];
 
+    // add it to the growing word
     word.append(str); 
     //cout << "After appended: " << word << endl;
+    
+    // get the char as an actual char
+    char ch = str[0];
+    //cout << "character: " << ch << endl;
+    // convert to position
+    int pos = ch - 97;
 
-    if (isInLexicon(word)) {
+    // instead of string is in lexicon, check if the character is in the board's array
+    
+    if (node->child[pos] != NULL)
+    {
+
+        if (node->child[pos] -> flag == true && word.length() >= length ) {
         //return;
-        //cout << "in lexicon" << endl;
-        words -> insert(word);
-    }
+            //cout << "in lexicon" << endl;
+            //cout << word << endl;
+            words -> insert(word);
+        }
+
             // if the next indices are on the board and not in isvisited, recurse
         if (r-1 >= 0)// && 
            if (!visited[r-1][c]) 
-                findMoreWords(r-1, c, word, visited, words);
+                findMoreWords(r-1, c, word, visited, words, node->child[pos], length);
            
 
         if (c-1 >= 0)// && 
             if (!visited[r][c-1]) 
-                findMoreWords(r, c-1, word, visited, words);
+                findMoreWords(r, c-1, word, visited, words,node->child[pos], length);
             
 
         if (r+1 < row)// && 
            if (!visited[r+1][c]) 
-                findMoreWords(r+1, c, word, visited, words);
+                findMoreWords(r+1, c, word, visited, words,node->child[pos], length);
            
         if (c+1 < col)// && 
             if (!visited[r][c+1]) 
-                findMoreWords(r, c+1, word, visited, words);
+                findMoreWords(r, c+1, word, visited, words,node->child[pos], length);
             
         // top left
         if (r-1 >= 0 && c-1 >=0)// &&// 
             if (!visited[r-1][c-1]) 
-                findMoreWords(r-1, c-1, word, visited, words);
+                findMoreWords(r-1, c-1, word, visited, words,node->child[pos], length);
             
         // top right
         if (r-1 >= 0 && c+1 < col)// && 
             if (!visited[r-1][c+1]) 
-                findMoreWords(r-1, c+1, word, visited, words);
+                findMoreWords(r-1, c+1, word, visited, words,node->child[pos], length);
             
         // bottom left
         if (r+1 < row && c-1 >=0)// && 
             if( !visited[r+1][c-1]) {
-                findMoreWords(r+1, c-1, word, visited, words);
+                findMoreWords(r+1, c-1, word, visited, words,node->child[pos], length);
             }
         // bottom right
         if (r+1 < row && c+1 < col)// && 
             if (!visited[r+1][c+1]) 
-                findMoreWords(r+1, c+1, word, visited, words);
-            
-
-        visited[r][c] = false;
+                findMoreWords(r+1, c+1, word, visited, words,node->child[pos], length);
         
+        visited[r][c] = false;
+
+    } 
+    else {
+        visited[r][c] = false;
     }
+        return; // ??
+        
+}
 
 /*
  * Takes an int specifying min word length, and a pointer to a ste of strings. Returns
@@ -138,13 +157,13 @@ bool BogglePlayer::getAllValidWords(unsigned int minimum_word_length, set<string
     // Dequeue the first one, queue up all spaces that haven't been checked yet
     
     //BogglePlayer::dealWithTrie( t -> root, "", 0, minimum_word_length, words, used );
-    cout << "Starting getwords..." << endl;
+    //cout << "Starting getwords..." << endl;
     for (int r = 0; r < row; r++)
         for (int c = 0; c < col; c++) {
-            BogglePlayer::findMoreWords( r, c, "", used, words);
+            BogglePlayer::findMoreWords( r, c, "", used, words, t->root, minimum_word_length);
         }
 
-    cout << "Finished get all validwords" << endl;
+    //cout << "Finished get all validwords" << endl;
     return true; 
 }
 
@@ -166,8 +185,8 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
      int flag = 0; 
      std::string character = word.substr(0, 1);  //take next character
 
-     std::cout << "Find called with: " << j << " " << i << " " << word << " " << endl; 
-     std::cout << "Looking for character: " << character << endl;
+     //std::cout << "Find called with: " << j << " " << i << " " << word << " " << endl; 
+     //std::cout << "Looking for character: " << character << endl;
     
      used[j][i] = true;
 
@@ -309,11 +328,11 @@ int BogglePlayer:: findNextChar( int j, int i, string word, bool **used){
 
 vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
     
-    if(!setCalled)
+    if(!setCalled || !buildCalled)
         return location;
 
     string news = toLowerCase(word_to_check);
-    std::cout << "LOOKIN FOR: " << news << endl;
+    //std::cout << "LOOKIN FOR: " << news << endl;
     vector<int> templocation;
     bool **used = new bool*[row];
     for (int i = 0; i < row; i++) {
@@ -347,25 +366,21 @@ vector<int> BogglePlayer::isOnBoard(const string& word_to_check) {
         }
     }
 
-    std::cout << "Found? - " << found << endl;
-
     if (location.size() > 0 && found == 1) {
-        cout << "Printing indices: ";
         templocation = location;
         for (int i = 0; i < templocation.size(); i++) {
-            cout <<" " << templocation[i];
+            //cout <<" " << templocation[i];
         }
-        cout << endl;
+        //cout << endl;
     }
     location.clear();
-    std:: cout << "templocation.size(): " << templocation.size() << std::endl;
     return templocation;
 }
 
 
 
 void BogglePlayer::getCustomBoard(string** &new_board, unsigned int *rows, unsigned int *cols){
-
+    setBoard(*rows, *cols, new_board);
 
 }
 

@@ -27,7 +27,7 @@ class BogglePlayer: public BaseBogglePlayer {
         vector<int> location;
        
         //void dealWithTrie(alphaNode *node, string word, int length, int minLength, set<string>* words);
-        void findMoreWords(int r, int c, string word, bool** visited, set<string>* words );
+        void findMoreWords(int r, int c, string word, bool** visited, set<string>* words, alphaNode *node, unsigned int length );
         int findNextChar( int x, int y, string word, bool **used);
 };
 

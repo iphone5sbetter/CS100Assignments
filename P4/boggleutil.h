@@ -15,6 +15,7 @@ public:
   // child of each alphaNode* is an alphaNode*
   alphaNode* child[26];
   bool flag;
+  bool trimmed;
 
 /* Node class for alphaNode */
  alphaNode(){
@@ -53,5 +54,15 @@ public:
     void insert(const string &word);
     bool find(const string &word);
 };
+
+/*
+class BogglePiece {
+
+    string str;
+  int index;
+  int row;
+  int col;
+
+} */
 
 #endif // BOGGLEUTIL_HPP

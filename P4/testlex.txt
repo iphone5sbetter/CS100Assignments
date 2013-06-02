@@ -1,0 +1,7 @@
+cat
+dog
+make
+in
+soar
+go
+tan
