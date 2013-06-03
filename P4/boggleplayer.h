@@ -1,3 +1,4 @@
+// Daniel Brim <dbrim@ucsd.edu>, Tyler Pollak <cs100tak@ieng6.edu>
 #ifndef BOGGLEPLAYER_H
 #define BOGGLEPLAYER_H
 
@@ -30,7 +31,7 @@ class BogglePlayer: public BaseBogglePlayer {
         void findMoreWords(int r, int c, string word, bool** visited, set<string>* words, alphaNode *node, unsigned int length );
         int findNextChar( int x, int y, string word, bool **used);
 };
-
+/*
 class BogglePiece {
         vector<BogglePiece> adjacentPieces;
 
@@ -57,5 +58,5 @@ class BogglePiece {
         vector<BogglePiece>getAdjacentPieces();
         
 };
-
+*/
 #endif //BOGGLEPLAYER_H

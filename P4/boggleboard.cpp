@@ -1,3 +1,4 @@
+// Daniel Brim <dbrim@ucsd.edu>, John Doe <tpollak@ucsd.edu>
 /**
  *  CSE 100 C++ Boggle
  *  Authors: Vivek Ramavajjala, Paul Kube

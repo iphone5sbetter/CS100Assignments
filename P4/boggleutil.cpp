@@ -1,3 +1,4 @@
+// Daniel Brim <dbrim@ucsd.edu>, Tyler Pollak <cs100tak@ieng6.edu>
 #include "boggleutil.h"
 
 /* Helper method for destructor */
@@ -69,4 +70,5 @@ bool alphaTrie:: find(const string &word){
             return current -> flag;
            }
     }
+    return false;
 }

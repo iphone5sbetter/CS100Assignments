@@ -1,3 +1,4 @@
+// Daniel Brim <dbrim@ucsd.edu>, Tyler Pollak <cs100tak@ieng6.edu>
 #ifndef BOGGLEUTIL_H
 #define BOGGLEUTIL_H 
 

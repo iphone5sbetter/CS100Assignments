@@ -1,3 +1,4 @@
+// Daniel Brim <dbrim@ucsd.edu>, Tyler Pollak <cs100tak@ieng6.edu>
 #include "baseboggleplayer.h"
 #include "boggleplayer.h"
 #include <iostream>
@@ -10,37 +11,38 @@
 
 int main (int argc, char* argv[]) {
 
-  BaseBogglePlayer * p = new BogglePlayer();
-  set<string> lex;
+    BaseBogglePlayer * p = new BogglePlayer();
+    set<string> lex;
 
   /*
-  lex.insert("efgh");
-    lex.insert("abc");
-    lex.insert("cfk");
-    lex.insert("lko");
-    lex.insert("mno");
+    lex.insert("efgh");
 
-  string row0[] = {"a","b", "c", "d"};
-  string row1[] = {"e","f", "g", "h" };
-  string row2[] = {"i", "j", "k", "l"};
-  string row3[] = {"m", "n", "o", "p"}; */
+    string row0[] = {"a","b", "c", "d"};
+    string row1[] = {"e","f", "g", "h" };
+    string row2[] = {"i", "j", "k", "l"};
+    string row3[] = {"m", "n", "o", "p"}; 
 
   
-  //string* board[] = {row0,row1, row2, row3};
-  
-  // build the lexicon
-  
-set<string> words;
-  vector<int> locations;
+    string* board[] = {row0,row1, row2, row3};
+  */
+   
+    // empty word set
+    set<string> words;
 
-  string** board;
-        
+    // locations for isonboard
+    vector<int> locations;
+
+    // Declare board
+    string** board;
+    
+    
+     // build the lexicon
     std::ifstream file("lex.txt");
     std::string str; 
     while (std::getline(file, str))
     {
         // add str to lexicon
-        std::cout << "str - " << str << endl;
+        //std::cout << "str - " << str << endl;
         lex.insert(str);
     }
 
@@ -48,7 +50,7 @@ set<string> words;
     int col = 23;
 
     // build the board
-     std::ifstream brd("brd.txt");
+    std::ifstream brd("brd.txt");
     getline(brd, str);
     getline(brd, str);
 
@@ -57,13 +59,11 @@ set<string> words;
         board[r] = new string[col]; //cols
         for (int c = 0; c < col; c++) {
             getline(brd, str);
-            std::cout << "str - " << str << endl;
+            //std::cout << "str - " << str << endl;
             board[r][c] = str;
         }
     }
-
-
-  
+    
 
   p->buildLexicon(lex);
 
@@ -96,21 +96,23 @@ set<string> words;
     return -1;
   } */
 
+  
+  // CUSTOM 
   /*
-  // CUSTOM
     locations.clear();
     locations = p->isOnBoard("dc");
     if(locations.size() != 2 || locations[0] != 0 || locations[1] != 1) {
         std::cerr << "Apparent problem with isOnBoard #CUSTOM." << std::endl;
         return -1;
-    }*/
+    } */
 
     // Hard CUSTOM
     
   /*
     locations.clear();
-    locations = p->isOnBoard("abcd");
+    locations = p->isOnBoard("odds");
 
+    std::cerr << "Locations: " << endl;
     for (int i = 0; i < locations.size(); i++) {
             std::cout << locations[i] << std::endl;
     }
@@ -119,11 +121,11 @@ set<string> words;
     else
         std::cerr << "Word FOUND" << endl;
 
-    std::cerr << "Check indices for #MEGACUSTOM." << std::endl; */
+    std::cerr << "Check indices for #MEGACUSTOM." << std::endl; 
+    */
     
   
-  /*
-  if( !p -> getAllValidWords(0,&words)) {
+/*if( !p -> getAllValidWords(0,&words)) {
     std::cerr << "Apparent problem with getAllValidWords #1." << std::endl;
     return -1;
   }
