@@ -1,7 +1,7 @@
 # A simple makefile for CSE 100 P4
 
 CC=g++
-CXXFLAGS=-g -std=c++11
+CXXFLAGS=-g
 LDFLAGS=-g
 
 all: bogtest

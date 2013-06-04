@@ -12,7 +12,7 @@ class alphaNode{
 
 public:
 
-  char letter; //will be set to letter of word later
+  char letter; 
   // child of each alphaNode* is an alphaNode*
   alphaNode* child[26];
   bool flag;
@@ -34,9 +34,8 @@ class alphaTrie {
   
 private:
 
+//Helper function for destructor
  void makeEmpty(alphaNode* &curr);
- 
-
 
 
 public:
@@ -55,15 +54,5 @@ public:
     void insert(const string &word);
     bool find(const string &word);
 };
-
-/*
-class BogglePiece {
-
-    string str;
-  int index;
-  int row;
-  int col;
-
-} */
 
 #endif // BOGGLEUTIL_HPP

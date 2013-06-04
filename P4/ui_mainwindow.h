@@ -1,4 +1,3 @@
-// Daniel Brim <dbrim@ucsd.edu>, Tyler Pollak <cs100tak@ieng6.edu>
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **

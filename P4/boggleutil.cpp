@@ -4,9 +4,6 @@
 /* Helper method for destructor */
 void alphaTrie:: makeEmpty(alphaNode* &curr){
 
- alphaNode* node;
- alphaNode* deleteNode;
-
   for(int i = 0; i < 26; i++){
     if(curr -> child[i] != nullptr){
       makeEmpty(curr -> child[i]);   //delete current node recursively
@@ -21,7 +18,7 @@ alphaTrie::~alphaTrie(){
    makeEmpty(root);
 } 
 
-// this may not work for upper case - may need to force lowercase somewhere
+// Insert word into alphaTrie
 void alphaTrie:: insert(const string &word){
     if( root == nullptr){
         alphaNode* node = new alphaNode();
@@ -30,9 +27,8 @@ void alphaTrie:: insert(const string &word){
     alphaNode* current = this -> root;
     
     // For every letter in the word
-    for (int i = 0; i < word.length(); i++) {
+    for (unsigned int i = 0; i < word.length(); i++) {
         int pos = word[i] - 97; // Convert the letter into a position
-        //std::cout << "Char position: " << pos << endl; 
         // Check to see if there's a node already there
         if ( current -> child[pos] == nullptr ) {
             alphaNode* newnode = new alphaNode(); // Create a child node
@@ -40,7 +36,7 @@ void alphaTrie:: insert(const string &word){
             current = newnode; // Become the new node!
         }
         else {
-            current = current -> child[pos];
+            current = current -> child[pos]; //Follow tree down
         }
 
         // Set the flag if it's the last character in the word
@@ -49,6 +45,7 @@ void alphaTrie:: insert(const string &word){
     }
 }
 
+//Find function for alphaTrie. Returns true if found, false otherwise.
 bool alphaTrie:: find(const string &word){
     if (root == nullptr) {
         return false;
@@ -56,7 +53,8 @@ bool alphaTrie:: find(const string &word){
 
     alphaNode *current = this -> root;
 
-    for (int i = 0; i < word.length(); i++) {
+    for (unsigned int i = 0; i < word.length(); i++) {
+        //Reset indexes of letters in alphabet
         int pos = word[i] - 97;
         // Chec to see if there's a node there
         if (current -> child[pos] == nullptr) {
